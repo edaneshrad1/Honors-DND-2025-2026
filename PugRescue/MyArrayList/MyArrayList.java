@@ -68,9 +68,15 @@ public class MyArrayList<E> {
 	@SuppressWarnings("unchecked")
 	public boolean add(E obj) {
 		if (objectCount >= internalArray.length) {
-			
+			E[] newArray = (E[]) new Object[internalArray.length * 2];
+			for (int i = 0; i < internalArray.length; i++) {
+				newArray[i] = internalArray[i];
+			}
+			internalArray = newArray;
 		}
-		/* ---- YOUR CODE HERE ---- */
+		internalArray[objectCount] = obj;
+		objectCount++;
+		return true;
 	}
 
 	// /* Remove the object at index and shift.  Returns removed object. */
