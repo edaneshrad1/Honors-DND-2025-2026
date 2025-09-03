@@ -1,5 +1,3 @@
-
-
 public class pugTester {
     public static void main(String[] args) {
         MyArrayList<Dog> dogs = new MyArrayList<Dog>();

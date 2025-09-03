@@ -29,7 +29,7 @@ public class MyArrayList<E> {
 	/* Return the number of active slots in the array list */
 	public int size() {
 		//change to object count instead of length
-		return internalArray.length;
+		return objectCount;
 	}
 
 	/* Are there zero objects in the array list? */
@@ -54,14 +54,30 @@ public class MyArrayList<E> {
 
 	/* Returns true if this list contains an element equal to obj;
 	//  otherwise returns false. */
-	// public boolean contains(E obj) {
-	// 	/* ---- YOUR CODE HERE ---- */
-	// }
+	public boolean contains(E obj) {
+		for (int i = 0; i < objectCount; i++) {
+			if (internalArray[i].equals(obj)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/* Insert an object at index */
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
-		/* ---- YOUR CODE HERE ---- */
+		if (objectCount >= internalArray.length) {
+			E[] newArray = (E[]) new Object[internalArray.length * 2];
+			for (int i = 0; i < internalArray.length; i++) {
+				newArray[i] = internalArray[i];
+			}
+			internalArray = newArray;
+		}
+		for (int i = index; i < internalArray.length; i++) {
+			internalArray[i] = internalArray[i + 1];
+		}
+		internalArray[index] = obj;
+		objectCount++;
 	}
 
 	/* Add an object to the end of the list; returns true */
@@ -80,9 +96,14 @@ public class MyArrayList<E> {
 	}
 
 	// /* Remove the object at index and shift.  Returns removed object. */
-	// public E remove(int index) {
-	// 	/* ---- YOUR CODE HERE ---- */
-	// }
+	public E remove(int index) {
+		E specialObject = internalArray[index];
+		for (int i = index; i < internalArray.length; i++) {
+			internalArray[i] = internalArray[i + 1];
+		}
+		objectCount--;
+		return specialObject;
+	}
 
 	// /* Removes the first occurrence of the specified element from this list, 
 	//  * if it is present. If the list does not contain the element, it is unchanged. 
@@ -90,16 +111,32 @@ public class MyArrayList<E> {
 	//  * (o==null ? get(i)==null : o.equals(get(i))) (if such an element exists). 
 	//  * Returns true if this list contained the specified element (or equivalently, 
 	//  * if this list changed as a result of the call). */
-	// public boolean remove(E obj) {
-	// 	/* ---- YOUR CODE HERE ---- */
-	// }
+	public boolean remove(E obj) {
+		for (int i = 0; i < internalArray.length; i++) {
+			if (internalArray[i].equals(obj)) {
+				for (int j = i; j < internalArray.length; j++) {
+					internalArray[j] = internalArray[j + 1];
+					return true;
+				}
+			}
+		}
+		objectCount--;
+		return false;
+	}
 
 
 	// /* For testing; your string should output as "[X, X, X, X, ...]" where X, X, X, X, ... are the elements in the ArrayList.
 	//  * If the array is empty, it should return "[]".  If there is one element, "[X]", etc.
 	//  * Elements are separated by a comma and a space. */
-	// public String toString() {
-	// 	/* ---- YOUR CODE HERE ---- */
-	// }
-
+	public String toString() {
+		String returnString = "[";
+		for (int i = 0; i < objectCount; i++) {
+			returnString += internalArray[i].toString();
+			if (i != objectCount - 1) {
+				returnString += ", ";
+			}
+		}
+		returnString += "]";
+		return returnString;
+	}
 }
