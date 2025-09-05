@@ -27,17 +27,27 @@ public class MyArrayList<E> {
 	}
 
 	/* Return the number of active slots in the array list */
+
+	//O(1)
 	public int size() {
 		//change to object count instead of length
 		return objectCount;
 	}
 
 	/* Are there zero objects in the array list? */
-	// public boolean isEmpty() {
-	// 	/* ---- YOUR CODE HERE ---- */
-	// }
+
+	//O(1)
+	public boolean isEmpty() {
+		if (objectCount == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 	/* Get the index-th object in the list. */
+
+	//O(1)
 	public E get(int index) {
 		if (index < 0 || index >= internalArray.length) {
 			throw new IllegalArgumentException("index is out of bounds");
@@ -46,6 +56,8 @@ public class MyArrayList<E> {
 	}
 
 	/* Replace the object at index with obj.  returns object that was replaced. */
+
+	//O(1)
 	public E set(int index, E obj) {
 		E origionalObject = internalArray[index];
 		internalArray[index] = obj;
@@ -54,6 +66,8 @@ public class MyArrayList<E> {
 
 	/* Returns true if this list contains an element equal to obj;
 	//  otherwise returns false. */
+
+	//O(n)
 	public boolean contains(E obj) {
 		for (int i = 0; i < objectCount; i++) {
 			if (internalArray[i].equals(obj)) {
@@ -64,6 +78,9 @@ public class MyArrayList<E> {
 	}
 
 	/* Insert an object at index */
+
+	//O(1)
+	//O(n) if resizing is needed
 	@SuppressWarnings("unchecked")
 	public void add(int index, E obj) {
 		if (objectCount >= internalArray.length) {
@@ -73,29 +90,35 @@ public class MyArrayList<E> {
 			}
 			internalArray = newArray;
 		}
-		for (int i = index; i < internalArray.length; i++) {
-			internalArray[i] = internalArray[i + 1];
+		for (int i = objectCount; i > index; i--) {
+			internalArray[i] = internalArray[i - 1];
 		}
 		internalArray[index] = obj;
 		objectCount++;
 	}
 
 	/* Add an object to the end of the list; returns true */
+
+	//O(1)
+	//O(n) if resizing is needed
 	@SuppressWarnings("unchecked")
 	public boolean add(E obj) {
-		if (objectCount >= internalArray.length) {
-			E[] newArray = (E[]) new Object[internalArray.length * 2];
-			for (int i = 0; i < internalArray.length; i++) {
-				newArray[i] = internalArray[i];
-			}
-			internalArray = newArray;
-		}
-		internalArray[objectCount] = obj;
+		// if (objectCount >= internalArray.length) {
+		// 	E[] newArray = (E[]) new Object[internalArray.length * 2];
+		// 	for (int i = 0; i < internalArray.length; i++) {
+		// 		newArray[i] = internalArray[i];
+		// 	}
+		// 	internalArray = newArray;
+		// }
+		// internalArray[objectCount] = obj;
+		add(objectCount, obj);
 		objectCount++;
 		return true;
 	}
 
 	// /* Remove the object at index and shift.  Returns removed object. */
+
+	//O(n)
 	public E remove(int index) {
 		E specialObject = internalArray[index];
 		for (int i = index; i < internalArray.length; i++) {
@@ -111,16 +134,18 @@ public class MyArrayList<E> {
 	//  * (o==null ? get(i)==null : o.equals(get(i))) (if such an element exists). 
 	//  * Returns true if this list contained the specified element (or equivalently, 
 	//  * if this list changed as a result of the call). */
+
+	//O(n)
 	public boolean remove(E obj) {
 		for (int i = 0; i < internalArray.length; i++) {
 			if (internalArray[i].equals(obj)) {
+				objectCount--;
 				for (int j = i; j < internalArray.length; j++) {
 					internalArray[j] = internalArray[j + 1];
 					return true;
 				}
 			}
 		}
-		objectCount--;
 		return false;
 	}
 
@@ -128,6 +153,9 @@ public class MyArrayList<E> {
 	// /* For testing; your string should output as "[X, X, X, X, ...]" where X, X, X, X, ... are the elements in the ArrayList.
 	//  * If the array is empty, it should return "[]".  If there is one element, "[X]", etc.
 	//  * Elements are separated by a comma and a space. */
+
+	//O(n) 
+	// but could become worse if object has instance variables that are arrays
 	public String toString() {
 		String returnString = "[";
 		for (int i = 0; i < objectCount; i++) {
