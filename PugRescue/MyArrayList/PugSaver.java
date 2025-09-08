@@ -4,7 +4,9 @@ import java.util.Objects;
 public class PugSaver {
 
 	// Moves every dog whose breed is "Pug" in the list to the back of the list
-	public static void rescuePugs(ArrayList<Dog> list) {
+
+	//O(n)
+	public static void rescuePugs(MyArrayList<Dog> list) {
 		for (int i = 0; i < list.size(); i++) {
 			if (isGolden(list.get(i))) {
 				for (int j = list.size() - 1; j > i; j--) {
@@ -19,6 +21,7 @@ public class PugSaver {
 		}
 	}
 
+	//O(1)
 	public static boolean isGolden(Dog dog) {
 		if(dog == null) {
 			return false;

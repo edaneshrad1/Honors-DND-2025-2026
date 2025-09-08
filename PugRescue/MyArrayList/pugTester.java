@@ -3,14 +3,26 @@ import java.util.ArrayList;
 public class pugTester {
     public static void main(String[] args) {
         MyArrayList<Dog> dogs = new MyArrayList<Dog>();
-        Dog one = new Dog("fido", "Golden Retriever");
-        Dog two = new Dog("fluffy", "German Shepherd");
-        Dog three = new Dog("Mr. Theiss", "Golden lab");
-        Dog four = new Dog("Cookie", "Shitzu");
-        dogs.add(one);
-        dogs.add(two);
-        dogs.add(three);
-        dogs.add(four);
+        // Dog one = new Dog("fido", "Golden Retriever");
+        // Dog two = new Dog("fluffy", "German Shepherd");
+        // Dog three = new Dog("Mr. Theiss", "Golden lab");
+        // Dog four = new Dog("Cookie", "Shitzu");
+        // Dog five = new Dog("Mr. Stout", "Golden doodle");
+        // Dog six = new Dog("Xander", new String("Gol" + "den"));
+        // dogs.add(one);
+        // dogs.add(two);
+        // dogs.add(three);
+        // dogs.add(four);
+        // dogs.add(five);
+        // dogs.add(1, six);
+        dogs.add(new Dog("Lady", "Golden"));
+        dogs.add(new Dog("Paco", "Mutt"));
+        dogs.add(new Dog("Fifi", "Mutt"));
+        dogs.add(new Dog("Hector", new String("Gol" + "den")));
+        dogs.add(new Dog("Luna", "Golden"));
+        dogs.add(new Dog("Rosie", "Labardoodle"));
+        dogs.add(new Dog("Liberty", "German Shepherd"));
+        dogs.add(new Dog("Monchy", "Golden"));
         System.out.println("Before");
         for (int i = 0; i < dogs.size(); i++) {
         System.out.println(dogs.get(i).toString());
