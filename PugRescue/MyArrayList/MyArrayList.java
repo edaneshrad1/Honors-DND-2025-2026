@@ -40,9 +40,9 @@ public class MyArrayList<E> {
 	// O(1)
 	public boolean isEmpty() {
 		if (objectCount == 0) {
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -50,8 +50,8 @@ public class MyArrayList<E> {
 
 	// O(1)
 	public E get(int index) {
-		if (index < 0 || index >= internalArray.length) {
-			throw new IllegalArgumentException("index is out of bounds");
+		if (index < 0 || index >= objectCount) {
+			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
 		return internalArray[index];
 	}
@@ -109,11 +109,11 @@ public class MyArrayList<E> {
 	@SuppressWarnings("unchecked")
 	public boolean add(E obj) {
 		if (objectCount >= internalArray.length) {
-		E[] newArray = (E[]) new Object[internalArray.length * 2];
-		for (int i = 0; i < internalArray.length; i++) {
-		newArray[i] = internalArray[i];
-		}
-		internalArray = newArray;
+			E[] newArray = (E[]) new Object[internalArray.length * 2];
+			for (int i = 0; i < internalArray.length; i++) {
+				newArray[i] = internalArray[i];
+			}
+			internalArray = newArray;
 		}
 		internalArray[objectCount] = obj;
 		// add(objectCount, obj);
@@ -144,8 +144,7 @@ public class MyArrayList<E> {
 	public boolean remove(E obj) {
 		for (int i = 0; i < objectCount; i++) {
 			if (internalArray[i].equals(obj)) {
-				objectCount--;
-				internalArray[i] = internalArray[i + 1];
+				remove(i);
 				return true;
 			}
 		}

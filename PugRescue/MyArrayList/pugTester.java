@@ -9,17 +9,17 @@ public class pugTester {
         Dog four = new Dog("Cookie", "Shitzu");
         dogs.add(one);
         dogs.add(two);
-        dogs.add(1, three);
-        dogs.add(2, four);
+        dogs.add(three);
+        dogs.add(four);
         System.out.println("Before");
         for (int i = 0; i < dogs.size(); i++) {
-        // System.out.println(dogs.get(i).toString());
+        System.out.println(dogs.get(i).toString());
         }
         System.out.println();
-        // PugSaver.rescuePugs(dogs);
+        PugSaver.rescuePugs(dogs);
         System.out.println("After");
         for (int i = 0; i < dogs.size(); i++) {
-            // System.out.println(dogs.get(i).toString());
+            System.out.println(dogs.get(i).toString());
         }
     }
 }
