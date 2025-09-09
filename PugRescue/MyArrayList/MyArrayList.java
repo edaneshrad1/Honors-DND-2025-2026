@@ -160,14 +160,24 @@ public class MyArrayList<E> {
 	// O(n)
 	// but could become worse if object has instance variables that are arrays
 	public String toString() {
-		String returnString = "[";
+		// String returnString = "[";
+		// for (int i = 0; i < objectCount; i++) {
+		// 	returnString += internalArray[i].toString();
+		// 	if (i != objectCount - 1) {
+		// 		returnString += ", ";
+		// 	}
+		// }
+		// returnString += "]";
+		// return returnString;
+		StringBuilder returnString = new StringBuilder();
+		returnString.append('[');
 		for (int i = 0; i < objectCount; i++) {
-			returnString += internalArray[i].toString();
+			returnString.append(internalArray[i].toString());
 			if (i != objectCount - 1) {
-				returnString += ", ";
+				returnString.append(", ");
 			}
 		}
-		returnString += "]";
-		return returnString;
+		returnString.append(']');
+		return returnString.toString();
 	}
 }

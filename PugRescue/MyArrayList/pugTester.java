@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class pugTester {
     public static void main(String[] args) {
-        MyArrayList<Dog> dogs = new MyArrayList<Dog>();
+        ArrayList<Dog> dogs = new ArrayList<Dog>();
         // Dog one = new Dog("fido", "Golden Retriever");
         // Dog two = new Dog("fluffy", "German Shepherd");
         // Dog three = new Dog("Mr. Theiss", "Golden lab");

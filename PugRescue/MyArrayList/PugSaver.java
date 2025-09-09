@@ -6,7 +6,7 @@ public class PugSaver {
 	// Moves every dog whose breed is "Pug" in the list to the back of the list
 
 	//O(n)
-	public static void rescuePugs(MyArrayList<Dog> list) {
+	public static void rescuePugs(ArrayList<Dog> list) {
 		for (int i = 0; i < list.size(); i++) {
 			if (isGolden(list.get(i))) {
 				for (int j = list.size() - 1; j > i; j--) {
