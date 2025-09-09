@@ -116,9 +116,9 @@ public class MyArrayList<E> {
 			internalArray = newArray;
 		}
 		internalArray[objectCount] = obj;
-		// add(objectCount, obj);
 		objectCount++;
 		return true;
+		// add(objectCount, obj);
 	}
 
 	// /* Remove the object at index and shift. Returns removed object. */

@@ -7,13 +7,15 @@ public class PugSaver {
 
 	//O(n)
 	public static void rescuePugs(ArrayList<Dog> list) {
+		int lastNonGold = list.size() - 1;
 		for (int i = 0; i < list.size(); i++) {
 			if (isGolden(list.get(i))) {
-				for (int j = list.size() - 1; j > i; j--) {
+				for (int j = lastNonGold; j > i; j--) {
 					if (!isGolden(list.get(j))) {
 						Dog tempDog = list.get(i);
 						list.set(i, list.get(j));
 						list.set(j, tempDog);
+						lastNonGold = j;
 						break;
 					}
 				}
