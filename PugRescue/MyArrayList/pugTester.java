@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class pugTester {
     public static void main(String[] args) {
-        ArrayList<Dog> dogs = new ArrayList<Dog>();
+        MyArrayList<Dog> dogs = new MyArrayList<Dog>();
         // Dog one = new Dog("fido", "Golden Retriever");
         // Dog two = new Dog("fluffy", "German Shepherd");
         // Dog three = new Dog("Mr. Theiss", "Golden lab");
@@ -36,9 +36,13 @@ public class pugTester {
         // }
         // System.out.println();
         PugSaver.rescuePugs(dogs);
-        System.out.println("After");
+        // System.out.println("After");
         for (int i = 0; i < dogs.size(); i++) {
             System.out.println(dogs.get(i).toString());
+        }
+        // System.out.println(dogs.toString());
+        for (int i = dogs.size() - 1; i > 0; i--) {
+            // System.out.println(dogs.remove(i));
         }
     }
 }

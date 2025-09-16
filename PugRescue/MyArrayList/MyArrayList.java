@@ -53,6 +53,9 @@ public class MyArrayList<E> {
 		if (index < 0 || index >= objectCount) {
 			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
+		if (internalArray[index] == null) {
+			throw new NullPointerException("index is null");
+		}
 		return internalArray[index];
 	}
 
@@ -60,6 +63,15 @@ public class MyArrayList<E> {
 
 	// O(1)
 	public E set(int index, E obj) {
+		if (index < 0 || index >= objectCount) {
+			throw new IndexOutOfBoundsException("index is out of bounds");
+		}
+		if (internalArray[index] == null) {
+			throw new NullPointerException("index is null");
+		}
+		if (obj == null) {
+			throw new NullPointerException("object is null");
+		}
 		E origionalObject = internalArray[index];
 		internalArray[index] = obj;
 		return origionalObject;
@@ -71,6 +83,9 @@ public class MyArrayList<E> {
 
 	// O(n)
 	public boolean contains(E obj) {
+		if (obj == null) {
+			throw new NullPointerException("object is null");
+		}
 		for (int i = 0; i < objectCount; i++) {
 			if (internalArray[i].equals(obj)) {
 				return true;
@@ -87,6 +102,12 @@ public class MyArrayList<E> {
 	public void add(int index, E obj) {
 		if (index < 0 || index > objectCount) {
 			throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + objectCount);
+		}
+		if (internalArray[index] == null) {
+			throw new NullPointerException("index is null");
+		}
+		if (obj == null) {
+			throw new NullPointerException("object is null");
 		}
 		if (objectCount >= internalArray.length) {
 			E[] newArray = (E[]) new Object[internalArray.length * 2];
@@ -108,6 +129,9 @@ public class MyArrayList<E> {
 	// O(n) if resizing is needed
 	@SuppressWarnings("unchecked")
 	public boolean add(E obj) {
+		if (obj == null) {
+			throw new NullPointerException("object is null");
+		}
 		if (objectCount >= internalArray.length) {
 			E[] newArray = (E[]) new Object[internalArray.length * 2];
 			for (int i = 0; i < internalArray.length; i++) {
@@ -125,6 +149,12 @@ public class MyArrayList<E> {
 
 	// O(n)
 	public E remove(int index) {
+		if (internalArray[index] == null) {
+			throw new NullPointerException("index is null");
+		}
+		if (index < 0 || index >= objectCount) {
+			throw new IndexOutOfBoundsException("Index is out of bounds");
+		}
 		E specialObject = internalArray[index];
 		for (int i = index; i < objectCount - 1; i++) {
 			internalArray[i] = internalArray[i + 1];
@@ -142,6 +172,9 @@ public class MyArrayList<E> {
 
 	// O(n)
 	public boolean remove(E obj) {
+		if (obj == null) {
+			throw new NullPointerException("object is null");
+		}
 		for (int i = 0; i < objectCount; i++) {
 			if (internalArray[i].equals(obj)) {
 				remove(i);
@@ -154,7 +187,7 @@ public class MyArrayList<E> {
 
 	// /* For testing; your string should output as "[X, X, X, X, ...]" where X, X, X, X, ... are
 	// the elements in the ArrayList.
-	// * If the array is empty, it should return "[]". If there is one element, "[X]", etc.
+	// * If the array is empty, it should return "[]". If ther is one element, "[X]", etc.
 	// * Elements are separated by a comma and a space. */
 
 	// O(n)
