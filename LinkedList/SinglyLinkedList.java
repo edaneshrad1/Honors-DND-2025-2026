@@ -117,7 +117,7 @@ public class SinglyLinkedList<E> {
 			// doesn't exist (tail); moves to the next node
 			returnString.append(inspected.getValue());
 			//adds the value of the node to the string
-			if (i != objectCount - 1) {
+			if (inspected.getNext() != null) {
 				returnString.append(", ");
 			}
 		}
