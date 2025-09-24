@@ -16,6 +16,9 @@ public class SinglyLinkedList<E> {
 		this.head = null;
 		this.tail = this.head;
 		nodeCount = 0;
+		for (int i = 0; i < values.length; i++) {
+			add((E) values[i]);
+		}
 	}
 
 	public ListNode<E> getHead() {
@@ -84,9 +87,6 @@ public class SinglyLinkedList<E> {
 	// Adds obj to this collection. Returns true if successful;
 	// otherwise returns false.
 	public boolean add(E obj) {
-		if (obj == null) {
-			throw new NullPointerException("object cannot be null");
-		}
 		ListNode<E> added = new ListNode<E>(obj);
 		if (head == null) {
 			head = added;
@@ -164,29 +164,36 @@ public class SinglyLinkedList<E> {
 	// // Inserts obj to become the i-th element. Increments the size
 	// // of the list by one.
 	public void add(int i, Object obj) {
-		if (obj == null) {
-			throw new NullPointerException("object cannot be null");
-		}
 		if (i < 0 || i >= nodeCount) {
 			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
 
+		if (i == 0) {
+			ListNode<E> inspected = head;
+			ListNode<E> nodeToAdd = new ListNode<E>((E)obj);
+			head = nodeToAdd;
+			nodeToAdd.setNext(inspected);
+			nodeCount++;
+			return;
+		}
+
 		int index = 0;
 		ListNode<E> inspected = head;
-		while (index < i) {
+		while (index < i - 1) {
 			inspected = inspected.getNext();
 			index++;
 		}
 		ListNode<E> movedNode = inspected.getNext();
-		inspected.setNext(new ListNode<E>((E)obj));
+		inspected.setNext(new ListNode<E>((E) obj));
 		inspected.getNext().setNext(movedNode);
+		nodeCount++;
 	}
 
 	// // Removes the i-th element and returns its value.
 	// // Decrements the size of the list by one.
 	// O(n)
 	public E remove(int i) {
-		if (i < 0 || i >= nodeCount) {
+		if (i < 0 || i > nodeCount) {
 			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
 		E tailValue = this.tail.getValue();
