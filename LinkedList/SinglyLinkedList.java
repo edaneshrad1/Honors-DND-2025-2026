@@ -32,12 +32,14 @@ public class SinglyLinkedList<E> {
 	}
 
 	// Returns the number of elements in this list.
+	// O(1)
 	public int size() {
 		return nodeCount;
 	}
 
 	// Returns true if this list contains an element equal to obj;
 	// otherwise returns false.
+	// O(n)
 	public boolean contains(E obj) {
 		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
 				inspected.getNext()) {
@@ -57,16 +59,18 @@ public class SinglyLinkedList<E> {
 
 	// Returns the index of the first element in equal to obj;
 	// if not found, returns -1.
+	// O(n)
 	public int indexOf(E obj) {
-		ListNode<E> inspected = this.head;
-		while (inspected != this.tail) {
+		int index = 0;
+		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
+				inspected.getNext()) {
 			if (inspected.getValue().equals(obj)) {
-
+				return index;
 			}
-			inspected = inspected.getNext();
+			index++;
 		}
 		if (this.tail.getValue().equals(obj)) {
-
+			return index++;
 		}
 		return -1;
 	}
@@ -74,37 +78,105 @@ public class SinglyLinkedList<E> {
 	// Adds obj to this collection. Returns true if successful;
 	// otherwise returns false.
 	public boolean add(E obj) {
+		ListNode<E> added = new ListNode<E>(obj);
+		if (head == null) {
+			head = added;
+			tail = added;
+		} else {
+			tail.setNext(added);
+			tail = added;
+		}
 		nodeCount++;
-		// Update the node count to account for the added node
-		ListNode<E> added = new ListNode(obj);
-		// make a new node to add at the end
-		this.tail.setNext(added);
-		// sets the next for the tail as the new node
-		this.tail = added;
-		// turns the new end node into the tail
 		return true;
 	}
 
 	// Removes the first element that is equal to obj, if any.
 	// Returns true if successful; otherwise returns false.
+	// O(n)
 	public boolean remove(E obj) {
+		int index = 0;
+		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
+				inspected.getNext()) {
+					if (inspected.getValue().equals(obj)) {
+						remove(index);
+						return true;
+					}
+			index++;
+		}
+		if(this.tail.getValue().equals(obj)) {
+			remove(index + 1);
+			return true;
+		}
+		return false;
+	}
+
+	// // Returns the i-th element.
+	//O(n)
+	public E get(int i) {
+		if (i == 0) {
+			return head.getValue();
+		}
+		int index = 0;
+		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected = inspected.getNext()) {
+			if (index == i) {
+				return inspected.getValue();
+			}
+			index++;
+		}
+		return tail.getValue();
+	}
+
+	// // Replaces the i-th element with obj and returns the old value.
+	public E set(int i, Object obj) {
+		E returnValue = null
+		if (i == 0) {
+			returnValue = this.head.getValue();
+		}
+	}
+
+	// // Inserts obj to become the i-th element. Increments the size
+	// // of the list by one.
+	public void add(int i, Object obj) {
 
 	}
 
-	// Returns the i-th element.
-	public E get(int i) {}
-
-	// Replaces the i-th element with obj and returns the old value.
-	public E set(int i, Object obj) {}
-
-	// Inserts obj to become the i-th element. Increments the size
-	// of the list by one.
-	public void add(int i, Object obj) {}
-
-	// Removes the i-th element and returns its value.
-	// Decrements the size of the list by one.
+	// // Removes the i-th element and returns its value.
+	// // Decrements the size of the list by one.
+	//O(n)
 	public E remove(int i) {
+		E tailValue = this.tail.getValue();
+		//if i is 0 make the head the next node
+		if (i == 0) {
+			E returnValue = head.getValue();
+			head = head.getNext();
+			nodeCount--;
+			return returnValue;
+		}
 
+		int index = 0;
+		ListNode<E> nextInspected = null;
+			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected = inspected.getNext()) {
+				//if the node at i is the tail make the node before it the tail
+				if (inspected.getNext() == tail) {
+					inspected.setNext(null);
+					tail = inspected;
+					nodeCount--;
+					break;
+				}
+				nextInspected = inspected.getNext();
+				if (index == i - 1) {
+					//find the node right before i
+					E returnValue = inspected.getNext().getValue();
+					//return the value at node i
+					inspected.setNext(nextInspected.getNext());
+					//set the next node for the node before i to be the node after i
+					nodeCount--;
+					return returnValue;
+				}
+				index++;
+			}
+
+			return tailValue;
 	}
 
 	// Returns a string representation of this list exactly like that for MyArrayList.
@@ -116,11 +188,12 @@ public class SinglyLinkedList<E> {
 			// starts with the first node at the head; goes through the list until the next node
 			// doesn't exist (tail); moves to the next node
 			returnString.append(inspected.getValue());
-			//adds the value of the node to the string
+			// adds the value of the node to the string
 			if (inspected.getNext() != null) {
 				returnString.append(", ");
 			}
 		}
+		returnString.append(this.tail.getValue());
 		returnString.append(']');
 		return returnString.toString();
 	}

@@ -2,7 +2,7 @@
 
 public class ListNode<E> {
 
-private E value;
+  private E value;
   private ListNode<E> next;
 
   public ListNode(E v) {
@@ -15,11 +15,21 @@ private E value;
     next = nx;
   }
 
-  public E getValue() { return value; }
-  public ListNode<E> getNext() { return next; }
+  public E getValue() {
+    return value;
+  }
 
-  public void setValue(E v) { value = v; }
-  public void setNext(ListNode<E> nx) { next = nx; }
+  public ListNode<E> getNext() {
+    return next;
+  }
+
+  public void setValue(E v) {
+    value = v;
+  }
+
+  public void setNext(ListNode<E> nx) {
+    next = nx;
+  }
 }
 
 
