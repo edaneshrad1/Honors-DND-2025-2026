@@ -45,5 +45,20 @@ public class SinglyLinkedListTester<E> {
         System.out.println("Evan: " + myList.get(0));
         System.out.println("Nelson: " + myList.get(1));
         System.out.println("Mr. Theiss: " + myList.get(3));
+
+        System.out.println();
+
+        System.out.println("Testing set method");
+        // System.out.println("Joey: " + myList.set(0, "Joey"));
+        // System.out.println("Jerry: " + myList.set(1, "Jerry"));
+        // System.out.println("Bob: " + myList.set(3, "Bob"));
+        // System.out.println(myList.toString());
+
+        System.out.println();
+
+        System.out.println("Testing add index method");
+        myList.add(1, "James");
+        myList.add(3, "Xander");
+        System.out.println(myList.toString());
     }
 }
