@@ -47,6 +47,9 @@ public class SinglyLinkedList<E> {
 		if (obj == null) {
 			throw new NullPointerException("object cannot be null");
 		}
+		if (nodeCount == 0) {
+			return false;
+		}
 		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
 				inspected.getNext()) {
 			// finds first node at head; itterates through while this node isn't the tail; moves
@@ -70,6 +73,9 @@ public class SinglyLinkedList<E> {
 		if (obj == null) {
 			throw new NullPointerException("object cannot be null");
 		}
+		if (nodeCount == 0) {
+			return -1;
+		}
 		int index = 0;
 		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
 				inspected.getNext()) {
@@ -86,6 +92,7 @@ public class SinglyLinkedList<E> {
 
 	// Adds obj to this collection. Returns true if successful;
 	// otherwise returns false.
+	//O(1)
 	public boolean add(E obj) {
 		ListNode<E> added = new ListNode<E>(obj);
 		if (head == null) {
@@ -105,6 +112,9 @@ public class SinglyLinkedList<E> {
 	public boolean remove(E obj) {
 		if (obj == null) {
 			throw new NullPointerException("object cannot be null");
+		}
+		if (nodeCount == 0) {
+			return false;
 		}
 		int index = 0;
 		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
@@ -236,6 +246,10 @@ public class SinglyLinkedList<E> {
 	public String toString() {
 		StringBuilder returnString = new StringBuilder();
 		returnString.append('[');
+		if (nodeCount == 0) {
+			returnString.append(']');
+			return returnString.toString();
+		}
 		for (ListNode<E> inspected = this.head; inspected.getNext() != null; inspected =
 				inspected.getNext()) {
 			// starts with the first node at the head; goes through the list until the next node
