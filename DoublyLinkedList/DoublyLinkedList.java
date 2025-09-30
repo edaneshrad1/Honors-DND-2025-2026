@@ -15,6 +15,9 @@ public class DoublyLinkedList {
 	// Constructor: creates a list that contains
 	// all elements from the array values, in the same order
 	public DoublyLinkedList(Nucleotide[] values) {
+		nodeCount = 0;
+		SENTINEL.setNext(SENTINEL);
+		SENTINEL.setPrevious(SENTINEL);
 		for (int i = 0; i < values.length; i++) {
 			add(values[i]);
 		}
@@ -34,10 +37,17 @@ public class DoublyLinkedList {
 
 
 	// Returns true if this list is empty; otherwise returns false.
-	public boolean isEmpty() {}
+	public boolean isEmpty() {
+		if (nodeCount == 0) {
+			return true;
+		}
+		return false;
+	}
 
 	// Returns the number of elements in this list.
-	public int size() {}
+	public int size() {
+		return nodeCount;
+	}
 
 	// Returns true if this list contains an element equal to obj;
 	// otherwise returns false.
@@ -52,6 +62,12 @@ public class DoublyLinkedList {
 	public boolean add(Nucleotide obj) {
 		ListNode2<Nucleotide> added = new ListNode2<Nucleotide>(obj);
 		ListNode2<Nucleotide> lastNode = this.SENTINEL.getPrevious();
+		if (nodeCount == 0) {
+			SENTINEL.setNext(added);
+			added.setNext(SENTINEL);
+			added.setPrevious(SENTINEL);
+			SENTINEL.setPrevious(added);
+		}
 		lastNode.setNext(added);
 		added.setNext(SENTINEL);
 		added.setPrevious(lastNode);
@@ -89,9 +105,9 @@ public class DoublyLinkedList {
 			}
 			if (inspected == SENTINEL.getPrevious()) {
 				returnString.append(inspected.getValue());
-				returnString.append("]");
 			}
 		}
+		returnString.append(']');
 		return returnString.toString();
 	}
 
