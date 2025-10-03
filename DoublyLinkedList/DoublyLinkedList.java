@@ -85,6 +85,8 @@ public class DoublyLinkedList {
 			added.setNext(SENTINEL);
 			added.setPrevious(SENTINEL);
 			SENTINEL.setPrevious(added);
+			nodeCount++;
+			return true;
 		}
 		lastNode.setNext(added);
 		added.setNext(SENTINEL);

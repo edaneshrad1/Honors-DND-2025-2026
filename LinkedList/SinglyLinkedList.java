@@ -44,11 +44,18 @@ public class SinglyLinkedList<E> {
 	// otherwise returns false.
 	// O(n)
 	public boolean contains(E obj) {
-		if (obj == null) {
-			throw new NullPointerException("object cannot be null");
-		}
 		if (nodeCount == 0) {
 			return false;
+		}
+		if (obj == null) {
+			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected = inspected.getNext()) {
+				if (inspected.getValue() == null) {
+					return true;
+				}
+			}
+			if (this.tail.getValue() == null) {
+				return true;
+			}
 		}
 		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
 				inspected.getNext()) {
@@ -70,13 +77,21 @@ public class SinglyLinkedList<E> {
 	// if not found, returns -1.
 	// O(n)
 	public int indexOf(E obj) {
-		if (obj == null) {
-			throw new NullPointerException("object cannot be null");
-		}
 		if (nodeCount == 0) {
 			return -1;
 		}
 		int index = 0;
+		if (obj == null) {
+			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected = inspected.getNext()) {
+				if (inspected.getValue() == null) {
+					return index;
+				}
+				index++;
+			}
+			if (this.tail.getValue() == null) {
+				return index++;
+			}
+		}
 		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
 				inspected.getNext()) {
 			if (inspected.getValue().equals(obj)) {
@@ -110,13 +125,22 @@ public class SinglyLinkedList<E> {
 	// Returns true if successful; otherwise returns false.
 	// O(n)
 	public boolean remove(E obj) {
-		if (obj == null) {
-			throw new NullPointerException("object cannot be null");
-		}
 		if (nodeCount == 0) {
 			return false;
 		}
 		int index = 0;
+		if (obj == null) {
+			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected = inspected.getNext()) {
+				if (inspected.getValue() == null) {
+					remove(index);
+					return true;
+				}
+				index++;
+			}
+			if (this.tail == null) {
+				remove(index++);
+			}
+		}
 		for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
 				inspected.getNext()) {
 			if (inspected.getValue().equals(obj)) {
@@ -154,12 +178,10 @@ public class SinglyLinkedList<E> {
 
 	// // Replaces the i-th element with obj and returns the old value.
 	public E set(int i, Object obj) {
-		if (obj == null) {
-			throw new NullPointerException("object cannot be null");
-		}
 		if (i < 0 || i >= nodeCount) {
 			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
+		
 		ListNode<E> inspected = head;
 		int index = 0;
 		while (index < i) {
