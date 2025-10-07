@@ -3,10 +3,24 @@ public class DoublyLinkedListTester {
         DoublyLinkedList myList = new DoublyLinkedList();
         myList.add(Nucleotide.A);
         myList.add(Nucleotide.C);
-        // myList.add(Nucleotide.G);
-        // myList.add(Nucleotide.T);
+        myList.add(Nucleotide.G);
+        myList.add(Nucleotide.T);
+        myList.add(Nucleotide.A);
+        myList.add(Nucleotide.T);
+        myList.add(Nucleotide.A);
 
-        System.out.println(myList.toString());
+        DoublyLinkedList myList2 = new DoublyLinkedList();
+        myList2.add(Nucleotide.T);
+        myList2.add(Nucleotide.A);
+        myList2.add(Nucleotide.C);
+        myList2.add(Nucleotide.G);
+
+        DoublyLinkedList myList3 = new DoublyLinkedList();
+        myList3.add(Nucleotide.G);
+        myList3.add(Nucleotide.T);
+        myList3.add(Nucleotide.T);
+
+        // System.out.println(myList.toString());
 
         // System.out.println();
 
@@ -54,5 +68,32 @@ public class DoublyLinkedListTester {
         // System.out.println("Testind add index method");
         // myList.add(0, Nucleotide.T);
         // System.out.println(myList.toString());
+
+        // System.out.println();
+
+        // System.out.println("Testing add segment to end");
+        // myList.addSegmentToEnd(myList2);
+        // System.out.println(myList.toString());
+
+        // System.out.println();
+
+        // System.out.println("Testing delete segment");
+        // System.out.println(myList.deleteSegment(myList3));
+        // myList.deleteSegment(myList3);
+        // System.out.println(myList.toString());
+
+        // System.out.println();
+
+        // System.out.println("Testing delete last three");
+        // System.out.println(myList.deleteLastThree());
+        // myList.deleteLastThree();
+        // System.out.println(myList.toString());
+
+        // System.out.println();
+
+        System.out.println("Testing replace every A with TAC");
+        System.out.println(myList.toString());
+        myList.replaceEveryAWithTAC();
+        System.out.println(myList.toString());
     }
 }

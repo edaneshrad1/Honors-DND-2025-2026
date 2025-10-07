@@ -1,3 +1,4 @@
+import java.util.List;
 
 public class DoublyLinkedList {
 	// Implements a circular doubly-linked list.
@@ -52,6 +53,17 @@ public class DoublyLinkedList {
 	// Returns true if this list contains an element equal to obj;
 	// otherwise returns false.
 	public boolean contains(Nucleotide obj) {
+		if (nodeCount == 0) {
+			return false;
+		}
+		if (obj == null) {
+			for (ListNode2<Nucleotide> inspected =
+					SENTINEL.getNext(); inspected != SENTINEL; inspected = inspected.getNext()) {
+				if (inspected.getValue() == null) {
+					return true;
+				}
+			}
+		}
 		for (ListNode2<Nucleotide> inspected =
 				SENTINEL.getNext(); inspected != SENTINEL; inspected = inspected.getNext()) {
 			if (inspected.getValue().equals(obj)) {
@@ -64,7 +76,19 @@ public class DoublyLinkedList {
 	// Returns the index of the first element in equal to obj;
 	// if not found, returns -1.
 	public int indexOf(Nucleotide obj) {
+		if (nodeCount == 0) {
+			return -1;
+		}
 		int index = 0;
+		if (obj == null) {
+			for (ListNode2<Nucleotide> inspected =
+					SENTINEL.getNext(); inspected != SENTINEL; inspected = inspected.getNext()) {
+				if (inspected.getValue() == null) {
+					return index;
+				}
+				index++;
+			}
+		}
 		for (ListNode2<Nucleotide> inspected =
 				SENTINEL.getNext(); inspected != SENTINEL; inspected = inspected.getNext()) {
 			if (inspected.getValue().equals(obj)) {
@@ -99,21 +123,36 @@ public class DoublyLinkedList {
 	// Removes the first element that is equal to obj, if any.
 	// Returns true if successful; otherwise returns false.
 	public boolean remove(Nucleotide obj) {
+		if (nodeCount == 0) {
+			return false;
+		}
 		int index = 0;
+		if (obj == null) {
+			for (ListNode2<Nucleotide> inspected =
+					SENTINEL.getNext(); inspected != SENTINEL; inspected = inspected.getNext()) {
+				if (inspected.getValue() == null) {
+					remove(index);
+					return true;
+				}
+				index++;
+			}
+		}
 		for (ListNode2<Nucleotide> inspected =
 				SENTINEL.getNext(); inspected != SENTINEL; inspected = inspected.getNext()) {
-					if (inspected.getValue().equals(obj)) {
-						remove(index);
-						nodeCount--;
-						return true;
-					}
-					index++;
+			if (inspected.getValue().equals(obj)) {
+				remove(index);
+				return true;
+			}
+			index++;
 		}
 		return false;
 	}
 
 	// Returns the i-th element.
 	public Nucleotide get(int i) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException("Index is out of bounds");
+		}
 		int index = 0;
 		ListNode2<Nucleotide> inspected = SENTINEL.getNext();
 		while (index < i) {
@@ -125,6 +164,9 @@ public class DoublyLinkedList {
 
 	// Replaces the i-th element with obj and returns the old value.
 	public Nucleotide set(int i, Nucleotide obj) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException("Index is out of bounds");
+		}
 		int index = 0;
 		ListNode2<Nucleotide> inspected = SENTINEL.getNext();
 		while (index < i) {
@@ -139,6 +181,9 @@ public class DoublyLinkedList {
 	// Inserts obj to become the i-th element. Increments the size
 	// of the list by one.
 	public void add(int i, Nucleotide obj) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException("Index is out of bounds");
+		}
 		int index = 0;
 		ListNode2<Nucleotide> inspected = SENTINEL.getNext();
 		ListNode2<Nucleotide> addedNode = new ListNode2<Nucleotide>(obj);
@@ -162,6 +207,9 @@ public class DoublyLinkedList {
 	// Removes the i-th element and returns its value.
 	// Decrements the size of the list by one.
 	public Nucleotide remove(int i) {
+		if (i < 0 || i >= nodeCount) {
+			throw new IndexOutOfBoundsException("Index is out of bounds");
+		}
 		int index = 0;
 		ListNode2<Nucleotide> inspected = SENTINEL.getNext();
 		while (index < i) {
@@ -197,7 +245,19 @@ public class DoublyLinkedList {
 	// Like question 7 on the SinglyLinkedList test:
 	// Add a "segment" (another list) onto the end of this list
 	public void addSegmentToEnd(DoublyLinkedList seg) {
-
+		ListNode2<Nucleotide> lastNode = SENTINEL.getPrevious();
+		ListNode2<Nucleotide> firstNodeOfSeg = seg.getHead();
+		ListNode2<Nucleotide> lastNodeOfSeg = seg.getTail();
+		if (nodeCount == 0) {
+			SENTINEL.setNext(firstNodeOfSeg);
+			firstNodeOfSeg.setPrevious(SENTINEL);
+			lastNodeOfSeg.setNext(SENTINEL);
+			SENTINEL.setPrevious(lastNodeOfSeg);
+		}
+		lastNode.setNext(firstNodeOfSeg);
+		firstNodeOfSeg.setPrevious(lastNode);
+		lastNodeOfSeg.setNext(SENTINEL);
+		SENTINEL.setPrevious(lastNodeOfSeg);
 	}
 
 	// Like question 8 on the SinglyLinkedList test:
@@ -205,27 +265,85 @@ public class DoublyLinkedList {
 	// (on the test these nodes were assumed to contain CCCCCCCCGGGGGGGG, but here
 	// you do not need to assume or check for that)
 	public void removeCCCCCCCCGGGGGGGG(ListNode2<Nucleotide> nodeBefore) {
-
+		int index = 0;
+		for (ListNode2<Nucleotide> runner = nodeBefore; runner != SENTINEL; runner =
+				runner.getNext()) {
+			index++;
+		}
+		if (nodeCount < 16 || index < 16) {
+			throw new IllegalArgumentException("List size is not big enough");
+		}
+		ListNode2<Nucleotide> inspected = nodeBefore.getNext();
+		for (int i = 0; i < 16; i++) {
+			inspected = inspected.getNext();
+		}
+		nodeBefore.setNext(inspected);
+		inspected.setPrevious(nodeBefore);
+		nodeCount -= 16;
 	}
 
 	// Like question 9 on the SinglyLinkedList test:
 	// You are to find and delete the first instance of seg in the list.
 	// If seg is not in the list, return false, otherwise return true.
 	public boolean deleteSegment(DoublyLinkedList seg) {
-
+		ListNode2<Nucleotide> inspected = SENTINEL.getNext();
+		while (inspected != SENTINEL) {
+			ListNode2<Nucleotide> runner = inspected;
+			ListNode2<Nucleotide> segNode = seg.getHead();
+			int matched = 0;
+			while (segNode != seg.getSentinel() && runner != SENTINEL
+					&& runner.getValue().equals(segNode.getValue())) {
+				runner = runner.getNext();
+				segNode = segNode.getNext();
+				matched++;
+			}
+			if (matched == seg.size()) {
+				ListNode2<Nucleotide> before = inspected.getPrevious();
+				ListNode2<Nucleotide> after = runner;
+				before.setNext(after);
+				after.setPrevious(before);
+				nodeCount -= seg.size();
+				return true;
+			}
+			inspected = inspected.getNext();
+		}
+		return false;
 	}
 
 	// Like question 10 on the SinglyLinkedList test:
 	// Delete the last three nodes in the list
 	// If there are not enough nodes, return false
 	public boolean deleteLastThree() {
-
+		if (nodeCount < 3) {
+			return false;
+		}
+		ListNode2<Nucleotide> fourthToLast =
+				SENTINEL.getPrevious().getPrevious().getPrevious().getPrevious();
+		fourthToLast.setNext(SENTINEL);
+		SENTINEL.setPrevious(fourthToLast);
+		nodeCount -= 3;
+		return true;
 	}
 
 	// Like question 11 on the SinglyLinkedList test:
 	// Replaces every node containing "A" with three nodes containing "T" "A" "C"
 	public void replaceEveryAWithTAC() {
-
+		ListNode2<Nucleotide> inspected = SENTINEL.getNext();
+		while (inspected != SENTINEL) {
+			ListNode2<Nucleotide> beforeInspected = inspected.getPrevious();
+			ListNode2<Nucleotide> afterInspected = inspected.getNext();
+			if (inspected.getValue().equals(Nucleotide.A)) {
+				DoublyLinkedList addedSeg = new DoublyLinkedList();
+				addedSeg.add(Nucleotide.T);
+				addedSeg.add(Nucleotide.A);
+				addedSeg.add(Nucleotide.C);
+				beforeInspected.setNext(addedSeg.getHead());
+				addedSeg.getHead().setPrevious(beforeInspected);
+				addedSeg.getTail().setNext(afterInspected);
+				afterInspected.setPrevious(addedSeg.getTail());
+			}
+			inspected = inspected.getNext();
+		}
 	}
 
 }

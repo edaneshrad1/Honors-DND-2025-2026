@@ -48,7 +48,8 @@ public class SinglyLinkedList<E> {
 			return false;
 		}
 		if (obj == null) {
-			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected = inspected.getNext()) {
+			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
+					inspected.getNext()) {
 				if (inspected.getValue() == null) {
 					return true;
 				}
@@ -82,7 +83,8 @@ public class SinglyLinkedList<E> {
 		}
 		int index = 0;
 		if (obj == null) {
-			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected = inspected.getNext()) {
+			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
+					inspected.getNext()) {
 				if (inspected.getValue() == null) {
 					return index;
 				}
@@ -107,7 +109,7 @@ public class SinglyLinkedList<E> {
 
 	// Adds obj to this collection. Returns true if successful;
 	// otherwise returns false.
-	//O(1)
+	// O(1)
 	public boolean add(E obj) {
 		ListNode<E> added = new ListNode<E>(obj);
 		if (head == null) {
@@ -130,7 +132,8 @@ public class SinglyLinkedList<E> {
 		}
 		int index = 0;
 		if (obj == null) {
-			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected = inspected.getNext()) {
+			for (ListNode<E> inspected = this.head; inspected != this.tail; inspected =
+					inspected.getNext()) {
 				if (inspected.getValue() == null) {
 					remove(index);
 					return true;
@@ -181,7 +184,7 @@ public class SinglyLinkedList<E> {
 		if (i < 0 || i >= nodeCount) {
 			throw new IndexOutOfBoundsException("index is out of bounds");
 		}
-		
+
 		ListNode<E> inspected = head;
 		int index = 0;
 		while (index < i) {
@@ -202,7 +205,7 @@ public class SinglyLinkedList<E> {
 
 		if (i == 0) {
 			ListNode<E> inspected = head;
-			ListNode<E> nodeToAdd = new ListNode<E>((E)obj);
+			ListNode<E> nodeToAdd = new ListNode<E>((E) obj);
 			head = nodeToAdd;
 			nodeToAdd.setNext(inspected);
 			nodeCount++;
