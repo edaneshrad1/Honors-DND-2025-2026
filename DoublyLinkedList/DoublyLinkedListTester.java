@@ -1,13 +1,13 @@
 public class DoublyLinkedListTester {
     public static void main(String[] args) {
         DoublyLinkedList myList = new DoublyLinkedList();
-        myList.add(Nucleotide.A);
-        myList.add(Nucleotide.C);
-        myList.add(Nucleotide.G);
-        myList.add(Nucleotide.T);
-        myList.add(Nucleotide.A);
-        myList.add(Nucleotide.T);
-        myList.add(Nucleotide.A);
+        // myList.add(Nucleotide.A);
+        // myList.add(Nucleotide.C);
+        // myList.add(Nucleotide.G);
+        // myList.add(Nucleotide.T);
+        // myList.add(Nucleotide.A);
+        // myList.add(Nucleotide.T);
+        // myList.add(Nucleotide.A);
 
         DoublyLinkedList myList2 = new DoublyLinkedList();
         myList2.add(Nucleotide.T);
@@ -65,9 +65,12 @@ public class DoublyLinkedListTester {
         // // System.out.println(myList.set(3, Nucleotide.A));
         // // System.out.println(myList.toString());
 
-        // System.out.println("Testind add index method");
-        // myList.add(0, Nucleotide.T);
-        // System.out.println(myList.toString());
+        System.out.println("Testind add index method");
+        myList.add(0, Nucleotide.T);
+        myList.add(0, Nucleotide.A);
+        myList.add(1, Nucleotide.G);
+        myList.add(2, Nucleotide.C);
+        System.out.println(myList.toString());
 
         // System.out.println();
 
@@ -91,9 +94,9 @@ public class DoublyLinkedListTester {
 
         // System.out.println();
 
-        System.out.println("Testing replace every A with TAC");
-        System.out.println(myList.toString());
-        myList.replaceEveryAWithTAC();
-        System.out.println(myList.toString());
+        // System.out.println("Testing replace every A with TAC");
+        // System.out.println(myList.toString());
+        // myList.replaceEveryAWithTAC();
+        // System.out.println(myList.toString());
     }
 }

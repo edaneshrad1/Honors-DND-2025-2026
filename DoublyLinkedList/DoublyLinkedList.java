@@ -181,27 +181,27 @@ public class DoublyLinkedList {
 	// Inserts obj to become the i-th element. Increments the size
 	// of the list by one.
 	public void add(int i, Nucleotide obj) {
+		if (nodeCount == 0 && i == 0) {
+			add(obj);
+			nodeCount++;
+			return;
+		}
 		if (i < 0 || i >= nodeCount) {
 			throw new IndexOutOfBoundsException("Index is out of bounds");
 		}
-		int index = 0;
-		ListNode2<Nucleotide> inspected = SENTINEL.getNext();
 		ListNode2<Nucleotide> addedNode = new ListNode2<Nucleotide>(obj);
-		if (i == 0) {
-			SENTINEL.setNext(addedNode);
-			addedNode.setPrevious(SENTINEL);
-			addedNode.setNext(inspected);
-			inspected.setPrevious(addedNode);
-		}
-		while (index < i) {
+		ListNode2<Nucleotide> inspected = SENTINEL;
+		// Start at SENTINEL bc it makes it less awkward when trying to add at 0
+		for (int index = 0; index < i; index++) {
+			// go get the node at i
 			inspected = inspected.getNext();
-			index++;
 		}
 		ListNode2<Nucleotide> nextNode = inspected.getNext();
 		inspected.setNext(addedNode);
 		addedNode.setPrevious(inspected);
 		addedNode.setNext(nextNode);
 		nextNode.setPrevious(addedNode);
+		nodeCount++;
 	}
 
 	// Removes the i-th element and returns its value.
