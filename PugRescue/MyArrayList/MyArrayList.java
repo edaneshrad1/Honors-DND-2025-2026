@@ -213,4 +213,9 @@ public class MyArrayList<E> {
 		returnString.append(']');
 		return returnString.toString();
 	}
+
+	public void removeLastHalf() {
+		int n = objectCount;
+		objectCount = n/2;
+	}
 }
