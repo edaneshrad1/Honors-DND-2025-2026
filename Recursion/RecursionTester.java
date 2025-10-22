@@ -4,7 +4,10 @@ public class RecursionTester {
         ListNode second = new ListNode("whaddup", third);
         ListNode head = new ListNode("head is here", second);
 
+        String[][] matrix = {{"normal"}, {"normal"}};
         //Call my method with the 'head'
-        Recursion.printListInReverse(head);
+        // Recursion.printListInReverse(head);
+
+        
     }
 }
