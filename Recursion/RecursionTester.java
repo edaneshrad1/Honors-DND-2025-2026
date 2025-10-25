@@ -24,5 +24,6 @@ public class RecursionTester {
 
         // System.out.println(Recursion.countWaysToJumpUpStairs(5));
 
+        Recursion.printSubsets("evan");
     }
 }
