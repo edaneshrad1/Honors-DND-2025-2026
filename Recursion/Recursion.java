@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Recursion {
 
 	// Prints the value of every node in the singly linked list with the given head,
@@ -126,8 +128,17 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 
+	//This method is stupid, I hate it
+	//Returns a String array of every permutation of str
+	//str is the input string
 	public static String[] printPermutationsHelper(String str) {
-		
+		if (str.length() == 1) {
+			String[] returnArray = new String[1];
+			returnArray[0] = str;
+			return returnArray;
+		} else {
+			ArrayList<String> myStringList = new ArrayList<String>();
+		}
 	}
 
 	public static void printPermutations(String str) {
