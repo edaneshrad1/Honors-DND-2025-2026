@@ -88,23 +88,26 @@ public class Recursion {
 	// "bc", "abc"
 	// Order is your choice
 
-	// Helper that returns an array of all subsets of the input string.
-	// Returns: String[] where each element is one subset of str.
+	//This method sucks so much I want to blow up my computer
+	// Helper that returns an arrayList of all subsets of the input string.
+	// Returns: String List where each element is one subset of str.
 	// Parameters:
 	// str - the input string (no repeated characters); the method returns all subsets of str
-	public static String[] printSubsetsHelper(String str) {
+	public static ArrayList<String> printSubsetsHelper(String str) {
+		ArrayList<String> returnList = new ArrayList<String>();
 		if (str.length() == 0) {
-			return new String[] {""};
+			returnList.add("");
+			return returnList;
 		}
+		ArrayList<String> restSubsets = new ArrayList<String>();
 		char first = str.charAt(0);
 		String rest = str.substring(1);
-		String[] restSubsets = printSubsetsHelper(rest);
-		String[] returnResult = new String[restSubsets.length * 2];
-		for (int i = 0; i < restSubsets.length; i++) {
-			returnResult[i] = restSubsets[i];
-			returnResult[i + restSubsets.length] = first + restSubsets[i];
+		restSubsets.addAll(printSubsetsHelper(rest));
+		for (int i = 0; i < restSubsets.size(); i++) {
+			returnList.add(restSubsets.get(i));
+			returnList.add(first + restSubsets.get(i));
 		}
-		return returnResult;
+		return returnList;
 	}
 
 	// "aghv"
@@ -115,10 +118,7 @@ public class Recursion {
 	// a + "hv", a + "h", a + "v", a + ""
 	// "g" "gv" "gh"
 	public static void printSubsets(String str) {
-		String[] subsets = printSubsetsHelper(str);
-		for (int i = 0; i < subsets.length; i++) {
-			System.out.println(subsets[i]);
-		}
+		System.out.println(printSubsetsHelper(str));
 	}
 
 	// List contains a single String to start.
@@ -128,17 +128,22 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 
-	//This method is stupid, I hate it
+	//This method is stupid, I hate it, more than printSubsets, this one sucks
 	//Returns a String array of every permutation of str
 	//str is the input string
-	public static String[] printPermutationsHelper(String str) {
-		if (str.length() == 1) {
-			String[] returnArray = new String[1];
-			returnArray[0] = str;
-			return returnArray;
-		} else {
-			ArrayList<String> myStringList = new ArrayList<String>();
+	public static ArrayList<String> printPermutationsHelper(String str) {
+		ArrayList<String> returnList = new ArrayList<String>();
+		if (str.length() <= 2) {
+			returnList.add(str);
+			returnList.add("" + str.charAt(1) + str.charAt(0));
 		}
+		// if (str.length() == 1) {
+		// 	String[] returnArray = new String[1];
+		// 	returnArray[0] = str;
+		// 	return returnArray;
+		// } else {
+		// 	ArrayList<String> myStringList = new ArrayList<String>();
+		// }
 	}
 
 	public static void printPermutations(String str) {
