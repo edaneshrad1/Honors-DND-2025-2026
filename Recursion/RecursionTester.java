@@ -4,11 +4,11 @@ public class RecursionTester {
         ListNode second = new ListNode("whaddup", third);
         ListNode head = new ListNode("head is here", second);
 
-        String[][] matrix = {{"normal", "infected", "vaccinated", "infected"},
-                {"normal", "infected", "normal", "normal"},
-                {"vaccinated", "vaccinated", "normal", "infected"},
-                {"normal", "infected", "vaccinated", "normal"}};
-                
+        String[][] matrix = { { "normal", "infected", "vaccinated", "infected" },
+                { "normal", "infected", "normal", "normal" },
+                { "vaccinated", "vaccinated", "normal", "infected" },
+                { "normal", "infected", "vaccinated", "normal" } };
+
         // Call my method with the 'head'
         // Recursion.printListInReverse(head);
 
@@ -24,6 +24,8 @@ public class RecursionTester {
 
         // System.out.println(Recursion.countWaysToJumpUpStairs(5));
 
-        Recursion.printSubsets("abc");
+        // Recursion.printSubsets("abc");
+
+        Recursion.printPermutations("abc");
     }
 }

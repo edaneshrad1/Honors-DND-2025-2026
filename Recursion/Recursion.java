@@ -133,21 +133,30 @@ public class Recursion {
 	//str is the input string
 	public static ArrayList<String> printPermutationsHelper(String str) {
 		ArrayList<String> returnList = new ArrayList<String>();
-		if (str.length() <= 2) {
+		if (str.length() == 2) {
 			returnList.add(str);
 			returnList.add("" + str.charAt(1) + str.charAt(0));
+			return returnList;
 		}
-		// if (str.length() == 1) {
-		// 	String[] returnArray = new String[1];
-		// 	returnArray[0] = str;
-		// 	return returnArray;
-		// } else {
-		// 	ArrayList<String> myStringList = new ArrayList<String>();
-		// }
+		ArrayList<String> restPermutations = new ArrayList<String>();
+		char first = str.charAt(0);
+		String rest = str.substring(1);
+		restPermutations.addAll(printPermutationsHelper(rest));
+		for (int i = 0; i <= rest.length(); i++) {
+			for (int i = 0; i <)
+			String addedString1 = printPermutationsHelperHelper(rest, i, first);
+			returnList.add(addedString1);
+		}
+		return returnList;
+	}
+
+	public static String printPermutationsHelperHelper(String str, int i, char ch) {
+		String returnString = str.substring(0, i) + ch + str.substring(i, str.length());
+		return returnString;
 	}
 
 	public static void printPermutations(String str) {
-
+		System.out.println(printPermutationsHelper(str));
 	}
 
 	// Performs a mergeSort on the given array of ints
