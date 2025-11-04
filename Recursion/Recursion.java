@@ -88,11 +88,9 @@ public class Recursion {
 	// "bc", "abc"
 	// Order is your choice
 
-	//This method sucks so much I want to blow up my computer
+	// This method sucks so much I want to blow up my computer
 	// Helper that returns an arrayList of all subsets of the input string.
-	// Returns: String List where each element is one subset of str.
-	// Parameters:
-	// str - the input string (no repeated characters); the method returns all subsets of str
+	// str - the input string (no repeated characters)
 	public static ArrayList<String> printSubsetsHelper(String str) {
 		ArrayList<String> returnList = new ArrayList<String>();
 		if (str.length() == 0) {
@@ -128,9 +126,10 @@ public class Recursion {
 	// "cab", "cba"
 	// Order is your choice
 
-	//This method is stupid, I hate it, more than printSubsets, this one sucks
-	//Returns a String array of every permutation of str
-	//str is the input string
+	// This method is stupid, I hate it, more than printSubsets, this one sucks so
+	// much more
+	// Returns a String array list of every permutation of str
+	// str is the input string
 	public static ArrayList<String> printPermutationsHelper(String str) {
 		ArrayList<String> returnList = new ArrayList<String>();
 		if (str.length() == 2) {
@@ -142,14 +141,19 @@ public class Recursion {
 		char first = str.charAt(0);
 		String rest = str.substring(1);
 		restPermutations.addAll(printPermutationsHelper(rest));
-		for (int i = 0; i <= rest.length(); i++) {
-			for (int i = 0; i <)
-			String addedString1 = printPermutationsHelperHelper(rest, i, first);
-			returnList.add(addedString1);
+		for (int i = 0; i < restPermutations.size(); i++) {
+			for (int j = 0; j <= restPermutations.get(i).length(); j++) {
+				String addedString = printPermutationsHelperHelper(restPermutations.get(i), j, first);
+				returnList.add(addedString);
+			}
 		}
 		return returnList;
 	}
 
+	// This helper method inserts a char at a specific index in a string
+	// str is the string
+	// i is the index its being inserted at
+	// ch is the char being inserted
 	public static String printPermutationsHelperHelper(String str, int i, char ch) {
 		String returnString = str.substring(0, i) + ch + str.substring(i, str.length());
 		return returnString;
@@ -159,10 +163,57 @@ public class Recursion {
 		System.out.println(printPermutationsHelper(str));
 	}
 
-	// Performs a mergeSort on the given array of ints
+	// A helper method that splits the origional array into a sub array from index
+	// left to right
 	// Precondition: you may assume there are NO duplicates!!!
-	public static void mergeSort(int[] ints) {
+	// arr is the origional arrray, left is the first index of the sub array, right
+	// is the last index of the sub array
+	public static void sort(int[] arr, int left, int right) {
+		if (left >= right) {
+			return;
+		}
+		int mid = (left + right) / 2;
+		sort(arr, left, mid);
+		sort(arr, mid + 1, right);
+	}
 
+	public static int[] merge(int[] arrLeft, int[] arrRight) {
+		int[] returnArray = new int[arrLeft.length + arrRight.length];
+		int leftIndex = 0;
+		int rightIndex = 0;
+		for (int i = 0; i < returnArray.length; i++) {
+			if (leftIndex >= arrLeft.length && rightIndex >= arrRight.length) {
+				break;
+			}
+			if (leftIndex >= arrLeft.length) {
+				for (int j = leftIndex; j < returnArray.length; j++) {
+					returnArray[j] = arrRight[rightIndex];
+					rightIndex++;
+				}
+				break;
+			}
+
+			if (rightIndex >= arrRight.length) {
+				for (int j = rightIndex; j < returnArray.length; j++) {
+					returnArray[j] = arrLeft[leftIndex];
+					leftIndex++;
+				}
+				break;
+			}
+
+			if (arrLeft[leftIndex] < arrRight[rightIndex]) {
+				returnArray[i] = arrLeft[leftIndex];
+				leftIndex++;
+			} else {
+				returnArray[i] = arrRight[rightIndex];
+				rightIndex++;
+			}
+		}
+		return returnArray;
+	}
+
+	public static void mergeSort(int[] ints) {
+		mergeSortHelper(ints, 0, ints.length - 1);
 	}
 
 	// Performs a quickSort on the given array of ints

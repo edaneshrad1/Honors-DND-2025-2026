@@ -8,7 +8,10 @@ public class RecursionTester {
                 { "normal", "infected", "normal", "normal" },
                 { "vaccinated", "vaccinated", "normal", "infected" },
                 { "normal", "infected", "vaccinated", "normal" } };
-
+                
+        
+        int[] ints1 = {3};
+        int[] ints2 = {1};
         // Call my method with the 'head'
         // Recursion.printListInReverse(head);
 
@@ -26,6 +29,13 @@ public class RecursionTester {
 
         // Recursion.printSubsets("abc");
 
-        Recursion.printPermutations("abc");
+        // Recursion.printPermutations("abcd");
+        
+        // Recursion.mergeSort(ints);
+
+        int[] ints = Recursion.merge(ints1, ints2);
+        for (int i = 0; i < ints.length; i++) {
+            System.out.println(ints[i]);
+        }
     }
 }
