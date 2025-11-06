@@ -165,62 +165,98 @@ public class Recursion {
 
 	// A helper method that splits the origional array into a sub array from index
 	// left to right
-	// Precondition: you may assume there are NO duplicates!!!
-	// arr is the origional arrray, left is the first index of the sub array, right
-	// is the last index of the sub array
-	public static void sort(int[] arr, int left, int right) {
-		if (left >= right) {
-			return;
+	// arr is the origional arrray
+	public static int[] sort(int[] arr) {
+		if (arr.length <= 1) {
+			return arr;
 		}
-		int mid = (left + right) / 2;
-		sort(arr, left, mid);
-		sort(arr, mid + 1, right);
+		int midIndex = arr.length / 2;
+		int[] arrLeft = new int[midIndex];
+		for (int i = 0; i < arrLeft.length; i++) {
+			arrLeft[i] = arr[i];
+		}
+		int[] arrRight = new int[arr.length - midIndex];
+		for (int i = 0; i < arrRight.length; i++) {
+			arrRight[i] = arr[midIndex + i];
+		}
+		int[] sortedLeft = sort(arrLeft);
+		int[] sortedRight = sort(arrRight);
+		return merge(sortedLeft, sortedRight);
 	}
 
+	// method that takes two sorted arrays and merges them into one sorted array
+	// returning that sorted array
+	// arrLeft is one of the two arrays being merged and arrRight is the other
 	public static int[] merge(int[] arrLeft, int[] arrRight) {
 		int[] returnArray = new int[arrLeft.length + arrRight.length];
 		int leftIndex = 0;
 		int rightIndex = 0;
 		for (int i = 0; i < returnArray.length; i++) {
-			if (leftIndex >= arrLeft.length && rightIndex >= arrRight.length) {
-				break;
-			}
 			if (leftIndex >= arrLeft.length) {
-				for (int j = leftIndex; j < returnArray.length; j++) {
-					returnArray[j] = arrRight[rightIndex];
-					rightIndex++;
-				}
-				break;
-			}
-
-			if (rightIndex >= arrRight.length) {
-				for (int j = rightIndex; j < returnArray.length; j++) {
-					returnArray[j] = arrLeft[leftIndex];
-					leftIndex++;
-				}
-				break;
-			}
-
-			if (arrLeft[leftIndex] < arrRight[rightIndex]) {
+				returnArray[i] = arrRight[rightIndex];
+				rightIndex++;
+			} else if (rightIndex >= arrRight.length) {
 				returnArray[i] = arrLeft[leftIndex];
 				leftIndex++;
 			} else {
-				returnArray[i] = arrRight[rightIndex];
-				rightIndex++;
+				int difference = arrLeft[leftIndex] - arrRight[rightIndex];
+				if (difference < 0) {
+					returnArray[i] = arrLeft[leftIndex];
+					leftIndex++;
+				} else {
+					returnArray[i] = arrRight[rightIndex];
+					rightIndex++;
+				}
 			}
 		}
 		return returnArray;
 	}
 
 	public static void mergeSort(int[] ints) {
-		mergeSortHelper(ints, 0, ints.length - 1);
+		System.out.println(sort(ints));
 	}
 
 	// Performs a quickSort on the given array of ints
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
 	public static void quickSort(int[] ints) {
+		System.out.println(quickSortHelper(ints));
+	}
 
+	//A helper method that returns a sorted ArrayList of the elements of ints
+	//ints is the origional array being sorted
+	public static ArrayList<Integer> quickSortHelper(int[] ints) {
+		if (ints.length <= 1) {
+			ArrayList<Integer> result = new ArrayList<Integer>();
+			for (int i = 0; i < ints.length; i++) {
+				result.add(ints[i]);
+			}
+			return result;
+		}
+		int pivot = ints[ints.length / 2];
+		ArrayList<Integer> arrLess = new ArrayList<Integer>();
+		ArrayList<Integer> arrGreater = new ArrayList<Integer>();
+		for (int i = 0; i < ints.length; i++) {
+			if (ints[i] < pivot) {
+				arrLess.add(ints[i]);
+			} else {
+				arrGreater.add(ints[i]);
+			}
+		}
+		int[] arrLeft = new int[arrLess.size()];
+		for (int i = 0; i < arrLess.size(); i++) {
+			arrLeft[i] = arrLess.get(i);
+		}
+		int[] arrRight = new int[arrGreater.size()];
+		for (int i = 0; i < arrGreater.size(); i++) {
+			arrRight[i] = arrGreater.get(i);
+		}
+
+		ArrayList<Integer> sorted = new ArrayList<Integer>();
+		sorted.addAll(quickSortHelper(arrLeft));
+		sorted.add(pivot);
+		sorted.addAll(quickSortHelper(arrRight));
+		return sorted;
 	}
 
 	// Prints a sequence of moves (one on each line)
@@ -230,7 +266,29 @@ public class Recursion {
 	// the form "1 -> 2", meaning "take the top disk of tower 1 and
 	// put it on tower 2" etc.
 	public static void solveHanoi(int startingDisks) {
+		if (startingDisks == 1) {
+			System.out.println("" + 0 + "->" + 2);
+			return;
+		}
+		solveHanoiHelper(startingDisks, 0, 2);
+	}
 
+	public static void solveHanoiHelper(int startingDisks, int start, int destination ) {
+		int free = 0;
+		if (!(start == 2 || destination == 2)) {
+			free = 2;
+		} else if (!(start == 1 || destination == 1)) {
+			free = 1;
+		}
+		if (startingDisks == 2) {
+			System.out.println("" + start + "->" + free);
+			System.out.println("" + start + "->" + destination);
+			System.out.println("" + free + "->" + destination);
+		} else {
+			solveHanoiHelper(startingDisks - 1, start, free);
+			System.out.println("" + start + "->" + destination);
+			solveHanoiHelper(startingDisks - 1, free, destination);
+		}
 	}
 
 	// You are partaking in a scavenger hunt!

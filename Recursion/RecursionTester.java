@@ -10,8 +10,10 @@ public class RecursionTester {
                 { "normal", "infected", "vaccinated", "normal" } };
                 
         
-        int[] ints1 = {3};
-        int[] ints2 = {1};
+        int[] sortedInts1 = {2, 3, 6, 12, 33};
+        int[] sortedInts2 = {1, 4, 9, 22};
+
+        int[] unsortedInts1 = {6, 3, 33, 2, 12, 32, 15};
         // Call my method with the 'head'
         // Recursion.printListInReverse(head);
 
@@ -33,9 +35,21 @@ public class RecursionTester {
         
         // Recursion.mergeSort(ints);
 
-        int[] ints = Recursion.merge(ints1, ints2);
-        for (int i = 0; i < ints.length; i++) {
-            System.out.println(ints[i]);
-        }
+        // int[] ints = Recursion.merge(sortedInts1, sortedInts2);
+        // for (int i = 0; i < ints.length; i++) {
+        //     System.out.print(ints[i] + ", ");
+        // }
+        
+        // int[] sortedInts = Recursion.sort(unsortedInts1);
+        // for (int i = 0; i < sortedInts.length; i++) {
+        //     System.out.println(sortedInts[i]);
+        // }
+
+        // Recursion.mergeSort(unsortedInts1);
+        // for (int i = 0; i < unsortedInts1.length; i++) {
+        //     System.out.println(unsortedInts1[i]);
+        // }
+
+        Recursion.solveHanoi(4);
     }
 }
