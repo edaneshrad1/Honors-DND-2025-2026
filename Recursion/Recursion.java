@@ -143,7 +143,8 @@ public class Recursion {
 		restPermutations.addAll(printPermutationsHelper(rest));
 		for (int i = 0; i < restPermutations.size(); i++) {
 			for (int j = 0; j <= restPermutations.get(i).length(); j++) {
-				String addedString = printPermutationsHelperHelper(restPermutations.get(i), j, first);
+				String addedString =
+						printPermutationsHelperHelper(restPermutations.get(i), j, first);
 				returnList.add(addedString);
 			}
 		}
@@ -223,8 +224,8 @@ public class Recursion {
 		System.out.println(quickSortHelper(ints));
 	}
 
-	//A helper method that returns a sorted ArrayList of the elements of ints
-	//ints is the origional array being sorted
+	// A helper method that returns a sorted ArrayList of the elements of ints
+	// ints is the origional array being sorted
 	public static ArrayList<Integer> quickSortHelper(int[] ints) {
 		if (ints.length <= 1) {
 			ArrayList<Integer> result = new ArrayList<Integer>();
@@ -273,7 +274,7 @@ public class Recursion {
 		solveHanoiHelper(startingDisks, 0, 2);
 	}
 
-	public static void solveHanoiHelper(int startingDisks, int start, int destination ) {
+	public static void solveHanoiHelper(int startingDisks, int start, int destination) {
 		int free = 0;
 		if (!(start == 2 || destination == 2)) {
 			free = 2;
@@ -311,7 +312,69 @@ public class Recursion {
 	// time 9
 	// for a total of 20 points, so it would return 20.
 	public static int scavHunt(int[] times, int[] points) {
-
+		return findMaxReward(times, points, 0);
 	}
 
+	// Method that returns the max reward after the current index
+	//times is the array of different times
+	//points is the array of differents points corresponding with the time
+	//index is the index of times we are starting from
+	public static int findMaxReward(int[] times, int[] points, int index) {
+		if (index >= times.length) {
+			return 0;
+		}
+
+		int skip = findMaxReward(times, points, index + 1);
+
+		int[] possibleNextTimes = findPossibleNextTimes(times, index);
+		int[] possibleNextPoints = new int[possibleNextTimes.length];
+
+		if (possibleNextTimes.length > 0) {
+			int start = index + 1;
+			while (start < times.length && times[start] != possibleNextTimes[0]) {
+				start++;
+			}
+
+			for (int i = 0; i < possibleNextTimes.length; i++) {
+				possibleNextPoints[i] = points[start + i];
+			}
+		}
+
+		int take = points[index] + findMaxReward(possibleNextTimes, possibleNextPoints, 0);
+
+		return Math.max(skip, take);
+	}
+
+	// returns an array of ints with all the possible next times after choosing the
+	// points at index
+	// index is the time you chose the points at
+	// times is the array of different times
+	public static int[] findPossibleNextTimes(int[] times, int index) {
+		if (index >= times.length - 1) {
+			return new int[0];
+		}
+
+		int change = 2; // change is the amount of indices in times after index ie. one after index,
+						// change = 1; two after index, change = 2; etc
+
+		if (times[index + 1] - times[index] >= 5) {
+			int[] nextTimes = new int[times.length - index - 1];
+			for (int i = 0; i < nextTimes.length; i++) {
+				nextTimes[i] = times[index + i + 1];
+			}
+			return nextTimes;
+		} else {
+			while (index + change < times.length && times[index + change] - times[index] < 5) {
+				change++;
+			}
+			if (index + change >= times.length) {
+				return new int[0];
+			}
+			int[] nextTimes = new int[times.length - index - change];
+			for (int i = 0; i < nextTimes.length; i++) {
+				nextTimes[i] = times[index + i + change];
+			}
+			return nextTimes;
+		}
+	}
 }

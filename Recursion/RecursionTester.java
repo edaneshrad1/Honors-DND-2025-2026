@@ -50,6 +50,10 @@ public class RecursionTester {
         //     System.out.println(unsortedInts1[i]);
         // }
 
-        Recursion.solveHanoi(4);
+        // Recursion.solveHanoi(8);
+
+        int[] times = {2, 7, 9, 10, 12, 18, 22, 23};
+        int[] points = {5, 8, 9, 11, 22, 11, 33, 15};
+        System.out.println(Recursion.scavHunt(times, points));
     }
 }
