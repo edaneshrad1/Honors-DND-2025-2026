@@ -1,19 +1,24 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
+
 public class RecursionTester {
     public static void main(String[] args) {
         ListNode third = new ListNode("yoyoyo", null);
         ListNode second = new ListNode("whaddup", third);
         ListNode head = new ListNode("head is here", second);
 
-        String[][] matrix = { { "normal", "infected", "vaccinated", "infected" },
-                { "normal", "infected", "normal", "normal" },
-                { "vaccinated", "vaccinated", "normal", "infected" },
-                { "normal", "infected", "vaccinated", "normal" } };
-                
-        
+        String[][] matrix = {{"normal", "infected", "vaccinated", "infected"},
+                {"normal", "infected", "normal", "normal"},
+                {"vaccinated", "vaccinated", "normal", "infected"},
+                {"normal", "infected", "vaccinated", "normal"}};
+
+
         int[] sortedInts1 = {2, 3, 6, 12, 33};
         int[] sortedInts2 = {1, 4, 9, 22};
 
-        int[] unsortedInts1 = {6, 3, 33, 2, 12, 32, 15};
+        int[] unsortedInts1 = {0, 7, 18, 2, 1, 20, 5, 8, 16, 3, 22 };
         // Call my method with the 'head'
         // Recursion.printListInReverse(head);
 
@@ -29,31 +34,79 @@ public class RecursionTester {
 
         // System.out.println(Recursion.countWaysToJumpUpStairs(5));
 
-        // Recursion.printSubsets("abc");
+        // Recursion.printSubsets("hum");
 
-        // Recursion.printPermutations("abcd");
-        
-        // Recursion.mergeSort(ints);
+        // Recursion.printPermutations("hum");
+
+        // Recursion.quickSort(unsortedInts1);
+
+        Recursion.mergeSort(unsortedInts1);
+        for (int i = 0; i < unsortedInts1.length; i++) {
+            System.out.println(unsortedInts1[i]);
+        }
+
+        // Recursion.quickSortHelper(unsortedInts1);
 
         // int[] ints = Recursion.merge(sortedInts1, sortedInts2);
         // for (int i = 0; i < ints.length; i++) {
-        //     System.out.print(ints[i] + ", ");
-        // }
-        
-        // int[] sortedInts = Recursion.sort(unsortedInts1);
-        // for (int i = 0; i < sortedInts.length; i++) {
-        //     System.out.println(sortedInts[i]);
+        // System.out.print(ints[i] + ", ");
         // }
 
-        // Recursion.mergeSort(unsortedInts1);
+        // int[] sortedInts = Recursion.sort(unsortedInts1);
+        // for (int i = 0; i < sortedInts.length; i++) {
+        // System.out.println(sortedInts[i]);
+        // }
+
         // for (int i = 0; i < unsortedInts1.length; i++) {
-        //     System.out.println(unsortedInts1[i]);
+        // System.out.println(unsortedInts1[i]);
         // }
 
         // Recursion.solveHanoi(8);
 
-        int[] times = {2, 7, 9, 10, 12, 18, 22, 23};
-        int[] points = {5, 8, 9, 11, 22, 11, 33, 15};
-        System.out.println(Recursion.scavHunt(times, points));
+        int[] times = {2, 7, 9, 10, 12, 18, 22, 23, 28, 33};
+        int[] points = {5, 8, 9, 11, 22, 11, 32, 15, 6692, 8};
+        // System.out.println(Recursion.scavHunt(times, points));
+
+        // public void testPrintSubsets() {
+        // String str = "hum";
+        // ArrayList<String> solList = new ArrayList<String>();
+        // solList.add("");
+        // solList.add("m");
+        // solList.add("u");
+        // solList.add("h");
+        // solList.add("um");
+        // solList.add("hm");
+        // solList.add("hu");
+        // solList.add("hum");
+
+        // sortStrings(solList);
+        // Collections.sort(solList);
+        // outContent.reset();
+        // Recursion.printSubsets(str);
+        // String student = outContent.toString();
+        // Scanner studentScanner = new Scanner(student);
+        // ArrayList<String> studentList = new ArrayList<String>();
+        // while (studentScanner.hasNextLine()) {
+        // studentList.add(studentScanner.nextLine());
+        // }
+        // studentScanner.close();
+        // sortStrings(studentList);
+        // Collections.sort(studentList);
+        // for (int i = 0; i < solList.size(); i++) {
+        // assertEquals(solList.get(i), studentList.get(i));
+        // }
+        // outContent.reset();
+
+        // }
+
+        // private static void sortStrings(ArrayList<String> list) {
+        // for (int i = 0; i < list.size(); i++) {
+        // String s = list.get(i);
+        // char[] chars = s.toCharArray();
+        // Arrays.sort(chars);
+        // list.set(i, new String(chars));
+        // }
+        // }
+        // Recursion.quickSort(unsortedInts1);
     }
 }

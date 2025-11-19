@@ -116,7 +116,10 @@ public class Recursion {
 	// a + "hv", a + "h", a + "v", a + ""
 	// "g" "gv" "gh"
 	public static void printSubsets(String str) {
-		System.out.println(printSubsetsHelper(str));
+		ArrayList<String> subsets = printSubsetsHelper(str);
+		for (int i = 0; i < subsets.size(); i++) {
+			System.out.println(subsets.get(i));
+		}
 	}
 
 	// List contains a single String to start.
@@ -161,7 +164,10 @@ public class Recursion {
 	}
 
 	public static void printPermutations(String str) {
-		System.out.println(printPermutationsHelper(str));
+		ArrayList<String> permutations = printPermutationsHelper(str);
+		for (int i = 0; i < permutations.size(); i++) {
+			System.out.println(permutations.get(i));
+		}
 	}
 
 	// A helper method that splits the origional array into a sub array from index
@@ -214,50 +220,78 @@ public class Recursion {
 	}
 
 	public static void mergeSort(int[] ints) {
-		System.out.println(sort(ints));
+		int[] sortedInts = sort(ints);
+		for (int i = 0; i < ints.length; i++) {
+			ints[i] = sortedInts[i];
+		}
 	}
 
 	// Performs a quickSort on the given array of ints
 	// Use the middle element (index n/2) as the pivot
 	// Precondition: you may assume there are NO duplicates!!!
+	// Yo Mr. Theiss, this method is the biggest abomination to the existence of humanity, I swear
 	public static void quickSort(int[] ints) {
-		System.out.println(quickSortHelper(ints));
+		int[] sortedInts = quickSortHelper(ints);
+		for (int i = 0; i < ints.length; i++) {
+			ints[i] = sortedInts[i];
+		}
 	}
 
 	// A helper method that returns a sorted ArrayList of the elements of ints
 	// ints is the origional array being sorted
-	public static ArrayList<Integer> quickSortHelper(int[] ints) {
+	public static int[] quickSortHelper(int[] ints) {
 		if (ints.length <= 1) {
-			ArrayList<Integer> result = new ArrayList<Integer>();
-			for (int i = 0; i < ints.length; i++) {
-				result.add(ints[i]);
-			}
-			return result;
-		}
-		int pivot = ints[ints.length / 2];
-		ArrayList<Integer> arrLess = new ArrayList<Integer>();
-		ArrayList<Integer> arrGreater = new ArrayList<Integer>();
-		for (int i = 0; i < ints.length; i++) {
-			if (ints[i] < pivot) {
-				arrLess.add(ints[i]);
-			} else {
-				arrGreater.add(ints[i]);
-			}
-		}
-		int[] arrLeft = new int[arrLess.size()];
-		for (int i = 0; i < arrLess.size(); i++) {
-			arrLeft[i] = arrLess.get(i);
-		}
-		int[] arrRight = new int[arrGreater.size()];
-		for (int i = 0; i < arrGreater.size(); i++) {
-			arrRight[i] = arrGreater.get(i);
+			return ints;
 		}
 
-		ArrayList<Integer> sorted = new ArrayList<Integer>();
-		sorted.addAll(quickSortHelper(arrLeft));
-		sorted.add(pivot);
-		sorted.addAll(quickSortHelper(arrRight));
-		return sorted;
+		int pivot = ints[ints.length / 2];
+
+		int lessCount = 0;
+		int greaterCount = 0;
+
+		for (int i = 0; i < ints.length; i++) {
+			if (ints[i] < pivot) {
+				lessCount++;
+			} else if (ints[i] > pivot) {
+				greaterCount++;
+			}
+		}
+
+		int[] left = new int[lessCount];
+		int[] right = new int[greaterCount];
+
+		int leftIndex = 0;
+		int rightIndex = 0;
+
+		for (int i = 0; i < ints.length; i++) {
+			if (ints[i] < pivot) {
+				left[leftIndex] = ints[i];
+				leftIndex++;
+			} else if (ints[i] > pivot) {
+				right[rightIndex] = ints[i];
+				rightIndex++;
+			}
+		}
+
+		int[] leftSorted = quickSortHelper(left);
+		int[] rightSorted = quickSortHelper(right);
+		int[] finalSorted = new int[leftSorted.length + rightSorted.length + 1];
+
+		int index = 0;
+
+		for (int i = 0; i < leftSorted.length; i++) {
+			finalSorted[index] = leftSorted[i];
+			index++;
+		}
+
+		finalSorted[index] = pivot;
+		index++;
+
+		for (int i = 0; i < rightSorted.length; i++) {
+			finalSorted[index] = rightSorted[i];
+			index++;
+		}
+		return finalSorted;
 	}
 
 	// Prints a sequence of moves (one on each line)
@@ -268,7 +302,7 @@ public class Recursion {
 	// put it on tower 2" etc.
 	public static void solveHanoi(int startingDisks) {
 		if (startingDisks == 1) {
-			System.out.println("" + 0 + "->" + 2);
+			System.out.println("" + 0 + " -> " + 2);
 			return;
 		}
 		solveHanoiHelper(startingDisks, 0, 2);
@@ -282,12 +316,12 @@ public class Recursion {
 			free = 1;
 		}
 		if (startingDisks == 2) {
-			System.out.println("" + start + "->" + free);
-			System.out.println("" + start + "->" + destination);
-			System.out.println("" + free + "->" + destination);
+			System.out.println("" + start + " -> " + free);
+			System.out.println("" + start + " -> " + destination);
+			System.out.println("" + free + " -> " + destination);
 		} else {
 			solveHanoiHelper(startingDisks - 1, start, free);
-			System.out.println("" + start + "->" + destination);
+			System.out.println("" + start + " -> " + destination);
 			solveHanoiHelper(startingDisks - 1, free, destination);
 		}
 	}
@@ -316,15 +350,16 @@ public class Recursion {
 	}
 
 	// Method that returns the max reward after the current index
-	//times is the array of different times
-	//points is the array of differents points corresponding with the time
-	//index is the index of times we are starting from
+	// times is the array of different times
+	// points is the array of differents points corresponding with the time
+	// index is the index of times we are starting from
 	public static int findMaxReward(int[] times, int[] points, int index) {
 		if (index >= times.length) {
 			return 0;
 		}
 
 		int skip = findMaxReward(times, points, index + 1);
+		// skip is the points you get if you skip at index
 
 		int[] possibleNextTimes = findPossibleNextTimes(times, index);
 		int[] possibleNextPoints = new int[possibleNextTimes.length];
@@ -341,6 +376,7 @@ public class Recursion {
 		}
 
 		int take = points[index] + findMaxReward(possibleNextTimes, possibleNextPoints, 0);
+		// take is the points you get if you take at index
 
 		return Math.max(skip, take);
 	}
