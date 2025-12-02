@@ -40,10 +40,10 @@ public class RecursionTester {
 
         // Recursion.quickSort(unsortedInts1);
 
-        Recursion.mergeSort(unsortedInts1);
-        for (int i = 0; i < unsortedInts1.length; i++) {
-            System.out.println(unsortedInts1[i]);
-        }
+        // Recursion.mergeSort(unsortedInts1);
+        // for (int i = 0; i < unsortedInts1.length; i++) {
+        //     System.out.println(unsortedInts1[i]);
+        // }
 
         // Recursion.quickSortHelper(unsortedInts1);
 
@@ -65,48 +65,8 @@ public class RecursionTester {
 
         int[] times = {2, 7, 9, 10, 12, 18, 22, 23, 28, 33};
         int[] points = {5, 8, 9, 11, 22, 11, 32, 15, 6692, 8};
-        // System.out.println(Recursion.scavHunt(times, points));
+        System.out.println(Recursion.scavHunt(times, points));
 
-        // public void testPrintSubsets() {
-        // String str = "hum";
-        // ArrayList<String> solList = new ArrayList<String>();
-        // solList.add("");
-        // solList.add("m");
-        // solList.add("u");
-        // solList.add("h");
-        // solList.add("um");
-        // solList.add("hm");
-        // solList.add("hu");
-        // solList.add("hum");
-
-        // sortStrings(solList);
-        // Collections.sort(solList);
-        // outContent.reset();
-        // Recursion.printSubsets(str);
-        // String student = outContent.toString();
-        // Scanner studentScanner = new Scanner(student);
-        // ArrayList<String> studentList = new ArrayList<String>();
-        // while (studentScanner.hasNextLine()) {
-        // studentList.add(studentScanner.nextLine());
-        // }
-        // studentScanner.close();
-        // sortStrings(studentList);
-        // Collections.sort(studentList);
-        // for (int i = 0; i < solList.size(); i++) {
-        // assertEquals(solList.get(i), studentList.get(i));
-        // }
-        // outContent.reset();
-
-        // }
-
-        // private static void sortStrings(ArrayList<String> list) {
-        // for (int i = 0; i < list.size(); i++) {
-        // String s = list.get(i);
-        // char[] chars = s.toCharArray();
-        // Arrays.sort(chars);
-        // list.set(i, new String(chars));
-        // }
-        // }
         // Recursion.quickSort(unsortedInts1);
     }
 }
