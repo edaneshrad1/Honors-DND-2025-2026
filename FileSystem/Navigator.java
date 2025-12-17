@@ -195,7 +195,6 @@ public class Navigator {
      * depth limits if provided by the arguments.
      */
     private void tree(String[] args) {
-        System.out.println(currentDirectory.getName());
         printTree(currentDirectory, "");
 
         // TODO: implement tree-style printing with indentation and branch characters
@@ -210,14 +209,14 @@ public class Navigator {
 
             String branch = "";
             if (isLastChild) {
-                branch = "|__";
+                branch = "|---";
             } else {
-                branch = "|--";
+                branch = "|---";
             }
 
             String name = "";
             if (child.isFolder()) {
-                name = child.getName() + "/";
+                name = child.getName();
             } else {
                 name = child.getName();
             }
@@ -227,11 +226,11 @@ public class Navigator {
             if (child.isFolder()) {
                 String nextPrefix = "";
                 if (isLastChild) {
-                    nextPrefix = prefix + "     ";
+                    nextPrefix = prefix + "    ";
                 } else {
-                    nextPrefix = prefix + "|    ";
+                    nextPrefix = prefix + "|   ";
                 }
-                printTree(folder, nextPrefix);
+                printTree((FolderNode) child, nextPrefix);
             }
         }
     }

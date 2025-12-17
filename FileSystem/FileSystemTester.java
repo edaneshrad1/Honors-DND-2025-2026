@@ -18,7 +18,7 @@ public class FileSystemTester {
 
     public static void main(String[] args) {
 
-        // // 1. Construct a tree and check root
+        // 1. Construct a tree and check root
         // FileSystemTree tree = new FileSystemTree();
         // FolderNode root = tree.getRoot();
 
@@ -44,10 +44,28 @@ public class FileSystemTester {
         // int sizeRoot = root.getSize();
         // int totalNodesRoot = root.getTotalNodeCount();
 
-        //testing wordFinder method
-        String[] testArray = new String[1];
-        testArray[0] = "/./../desktop/computerScience";
-        ArrayList<String> list = Navigator.wordFinder(testArray);
-        System.out.println(list);
+        // //testing wordFinder method
+        // String[] testArray = new String[1];
+        // testArray[0] = "/./../desktop/computerScience";
+        // ArrayList<String> list = Navigator.wordFinder(testArray);
+        // System.out.println(list);
+
+
+
+            /** Build a simple pre-populated student tree for listing/search tests. */
+        FileSystemTree t = new FileSystemTree();
+        FolderNode rootNode = t.getRoot();
+        rootNode.addFolder("docs");
+        rootNode.addFolder("bin");
+        rootNode.addFile("notes.txt", 10);
+        FolderNode docs = (FolderNode) rootNode.getChildByName("docs");
+        docs.addFile("readme.txt", 100);
+        docs.addFolder("projects");
+        FolderNode projects = (FolderNode) docs.getChildByName("projects");
+        projects.addFile("a.java", 50);
+
+        Navigator nav = new Navigator(t);
+        nav.processUserInputString("tree");
+        
     }
 }
