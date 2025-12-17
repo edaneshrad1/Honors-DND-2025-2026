@@ -38,8 +38,16 @@ public abstract class FileSystemNode {
      * The root has value 0, its children have value 1, and so on.
      */
     public int getDepth() {
+        int depth = 0;
+        FileSystemNode current = this;
+        while (current.getParent() != null) {
+            depth++;
+            current = current.getParent();
+        }
+
+        return depth;
+
         // TODO: compute depth by following parent references up to the root
-        return 0;
     }
 
     /**
@@ -66,7 +74,16 @@ public abstract class FileSystemNode {
      */
     @Override
     public String toString() {
+        if (parent == null) {
+            return name;
+        }
+        
+        String parentPath = parent.toString();
+        if (parentPath.endsWith("/")) {
+            return parentPath + name;
+        }
+        return parentPath + "/" + name;
+
         // TODO: build a string like "/root/folder/subfolder/file"
-        return null;
     }
 }

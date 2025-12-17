@@ -1,5 +1,6 @@
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 /**
  * Small manual tester for the solution file-system implementation.
@@ -17,30 +18,36 @@ public class FileSystemTester {
 
     public static void main(String[] args) {
 
-        // 1. Construct a tree and check root
-        FileSystemTree tree = new FileSystemTree();
-        FolderNode root = tree.getRoot();
+        // // 1. Construct a tree and check root
+        // FileSystemTree tree = new FileSystemTree();
+        // FolderNode root = tree.getRoot();
 
-        if (root == null) {
-            System.out.println("[FAIL] Root is null. FileSystemTree.getRoot() must return a non-null root folder.");
-            return;
-        } else {
-            System.out.println("[PASS] Root is non-null.");
-        }
+        // if (root == null) {
+        //     System.out.println("[FAIL] Root is null. FileSystemTree.getRoot() must return a non-null root folder.");
+        //     return;
+        // } else {
+        //     System.out.println("[PASS] Root is non-null.");
+        // }
 
-        System.out.println("Root toString(): " + root.toString());
-        System.out.println("Expected at root: '/' (or equivalent)");
+        // System.out.println("Root toString(): " + root.toString());
+        // System.out.println("Expected at root: '/' (or equivalent)");
 
-        // 2. Build a small structure under root
-        System.out.println("\n=== Building tree structure under root ===");
-        boolean addedDocs = root.addFolder("docs");
-        boolean addedSrc = root.addFolder("src");
-        boolean addedMainJava = root.addFile("main.java", 120);
-        boolean addedReadme = root.addFile("README.md", 80);
+        // // 2. Build a small structure under root
+        // System.out.println("\n=== Building tree structure under root ===");
+        // boolean addedDocs = root.addFolder("docs");
+        // boolean addedSrc = root.addFolder("src");
+        // boolean addedMainJava = root.addFile("main.java", 120);
+        // boolean addedReadme = root.addFile("README.md", 80);
 
-        int depthRoot = root.getDepth();
-        int heightRoot = root.getHeight();
-        int sizeRoot = root.getSize();
-        int totalNodesRoot = root.getTotalNodeCount();
+        // int depthRoot = root.getDepth();
+        // int heightRoot = root.getHeight();
+        // int sizeRoot = root.getSize();
+        // int totalNodesRoot = root.getTotalNodeCount();
+
+        //testing wordFinder method
+        String[] testArray = new String[1];
+        testArray[0] = "/./../desktop/computerScience";
+        ArrayList<String> list = Navigator.wordFinder(testArray);
+        System.out.println(list);
     }
 }

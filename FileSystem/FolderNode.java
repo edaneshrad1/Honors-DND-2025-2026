@@ -57,7 +57,7 @@ public class FolderNode extends FileSystemNode {
                 return false;
             }
         }
-        children.add(new FileNode(this, fileName, size));
+        children.add(new FileNode(fileName, this, size));
         return true;
 
         // TODO: implement uniqueness check and insertion of a new FileNode
@@ -92,15 +92,19 @@ public class FolderNode extends FileSystemNode {
         } else if (!containsChild(searchName) && containsFolder()) {
             for (int i = 0; i < children.size(); i++) {
                 if (children.get(i).isFolder()) {
-                    
+                    FolderNode folder1 = (FolderNode) (children.get(i));
+                    if (folder1.containsNameRecursive(searchName)) {
+                        return true;
+                    }
                 }
             }
         }
-        // TODO: check this directory and all descendants for the given name
         return false;
+
+        // TODO: check this directory and all descendants for the given name
     }
 
-    //Checks weather a child with name = childName is within a specific folder
+    // Checks weather a child with name = childName is within a specific folder
     public boolean containsChild(String childName) {
         for (int i = 0; i < children.size(); i++) {
             if (children.get(i).getName().equals(childName)) {
@@ -110,6 +114,7 @@ public class FolderNode extends FileSystemNode {
         return false;
     }
 
+    // Checks if the folder we are in has a folder node in it
     public boolean containsFolder() {
         for (int i = 0; i < children.size(); i++) {
             if (children.get(i).isFolder()) {
@@ -121,19 +126,66 @@ public class FolderNode extends FileSystemNode {
 
     @Override
     public int getHeight() {
+        List<FolderNode> folders = findFolders();
+        if (folders.size() == 0) {
+            return 1;
+        } else {
+            List<Integer> heights = new ArrayList();
+            for (int i = 0; i < folders.size(); i++) {
+                heights.add(folders.get(i).getHeight());
+            }
+             return 1+ findMax(heights);
+        }
+
         // TODO: compute the maximum height among children; empty folders have value 0
-        return 0;
+    }
+
+    // returns a list of all the folders within a folder
+    public List<FolderNode> findFolders() {
+        List<FolderNode> folders = new ArrayList<>();
+        for (int i = 0; i < children.size(); i++) {
+            if (children.get(i).isFolder()) {
+                folders.add((FolderNode) (children.get(i)));
+            }
+        }
+        return folders;
+    }
+
+    //finds the max value within an array of integers
+    public Integer findMax(List<Integer> ints) {
+        int max = 0;
+        for (int i = 0; i < ints.size(); i++) {
+            if (ints.get(i) > max) {
+                max = ints.get(i);
+            }
+        }
+        return max;
     }
 
     @Override
     public int getSize() {
+        int total = 0;
+        for (int i = 0; i < children.size(); i++) {
+            FileSystemNode child = children.get(i);
+            total += child.getSize();
+        }
+
+        return total;
+
         // TODO: sum the sizes of all files contained in this directory and its descendants
-        return 0;
     }
+
 
     @Override
     public int getTotalNodeCount() {
+        int count = 1;
+        for (int i = 0; i < children.size(); i++) {
+            FileSystemNode child = children.get(i);
+            count += child.getTotalNodeCount();
+        }
+
+        return count;
+
         // TODO: count this directory plus all descendant files and folders
-        return 0;
     }
 }
