@@ -27,8 +27,6 @@ public class FolderNode extends FileSystemNode {
     public List<FileSystemNode> getChildren() {
         List<FileSystemNode> defendedChildren = children;
         return defendedChildren;
-
-        // TODO: return the list of child nodes (possibly a defensive copy)
     }
 
     /**
@@ -42,8 +40,6 @@ public class FolderNode extends FileSystemNode {
             }
         }
         return null;
-
-        // TODO: scan children for a matching name and return the node if found
     }
 
     /**
@@ -59,8 +55,6 @@ public class FolderNode extends FileSystemNode {
         }
         children.add(new FileNode(fileName, this, size));
         return true;
-
-        // TODO: implement uniqueness check and insertion of a new FileNode
     }
 
     /**
@@ -76,8 +70,6 @@ public class FolderNode extends FileSystemNode {
         }
         children.add(new FolderNode(folderName, this));
         return true;
-
-        // TODO: implement uniqueness check and insertion of a new FolderNode
     }
 
     /**
@@ -100,8 +92,6 @@ public class FolderNode extends FileSystemNode {
             }
         }
         return false;
-
-        // TODO: check this directory and all descendants for the given name
     }
 
     // Checks weather a child with name = childName is within a specific folder
@@ -136,8 +126,6 @@ public class FolderNode extends FileSystemNode {
             }
              return 1+ findMax(heights);
         }
-
-        // TODO: compute the maximum height among children; empty folders have value 0
     }
 
     // returns a list of all the folders within a folder
@@ -171,8 +159,6 @@ public class FolderNode extends FileSystemNode {
         }
 
         return total;
-
-        // TODO: sum the sizes of all files contained in this directory and its descendants
     }
 
 
@@ -185,7 +171,5 @@ public class FolderNode extends FileSystemNode {
         }
 
         return count;
-
-        // TODO: count this directory plus all descendant files and folders
     }
 }

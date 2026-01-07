@@ -46,8 +46,6 @@ public abstract class FileSystemNode {
         }
 
         return depth;
-
-        // TODO: compute depth by following parent references up to the root
     }
 
     /**
@@ -83,7 +81,5 @@ public abstract class FileSystemNode {
             return parentPath + name;
         }
         return parentPath + "/" + name;
-
-        // TODO: build a string like "/root/folder/subfolder/file"
     }
 }

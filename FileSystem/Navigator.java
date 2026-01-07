@@ -96,8 +96,6 @@ public class Navigator {
                 }
             }
         }
-
-        // TODO: implement directory navigation
     }
 
     // Helper that returns a list of the seperate directories in args
@@ -136,7 +134,6 @@ public class Navigator {
                 System.out.println(currentDirectory.getChildren().get(i).getName());
             }
         }
-        // TODO: print names of all child nodes of currentDirectory
     }
 
     /**
@@ -144,8 +141,6 @@ public class Navigator {
      */
     private void mkdir(String[] args) {
         currentDirectory.addFolder(args[0]);
-
-        // TODO: read folder name from args and delegate to currentDirectory.addFolder(...)
     }
 
     /**
@@ -153,8 +148,6 @@ public class Navigator {
      */
     private void touch(String[] args) {
         currentDirectory.addFile(args[0], Integer.parseInt(args[1]));
-
-        // TODO: read file name and size from args and delegate to currentDirectory.addFile(...)
     }
 
     /**
@@ -163,8 +156,6 @@ public class Navigator {
      */
     private void find(String[] args) {
         findHelper(currentDirectory, args[0]);
-
-        // TODO: use recursive search starting at currentDirectory
     }
 
     // helper that finds the folderNode with name in the current directory and prints its path
@@ -186,8 +177,6 @@ public class Navigator {
      */
     private void pwd(String[] args) {
         System.out.println(currentDirectory.toString());
-
-        // TODO: use currentDirectory.toString() or similar path builder
     }
 
     /**
@@ -196,8 +185,6 @@ public class Navigator {
      */
     private void tree(String[] args) {
         printTree(currentDirectory, "");
-
-        // TODO: implement tree-style printing with indentation and branch characters
     }
 
     private void printTree(FolderNode folder, String prefix) {
@@ -241,8 +228,6 @@ public class Navigator {
      */
     private void count(String[] args) {
         System.out.println(currentDirectory.getTotalNodeCount() - 1);
-
-        // TODO: call a counting method on currentDirectory
     }
 
     /**
@@ -250,8 +235,6 @@ public class Navigator {
      */
     private void size(String[] args) {
         System.out.println(currentDirectory.getSize());
-
-        // TODO: call a size-calculation method on currentDirectory
     }
 
     /**
@@ -260,8 +243,6 @@ public class Navigator {
      */
     private void depth(String[] args) {
         System.out.println(currentDirectory.getDepth());
-
-        // TODO: use a depth method on currentDirectory
     }
 
     /**
@@ -270,8 +251,6 @@ public class Navigator {
      */
     private void height(String[] args) {
         System.out.println(currentDirectory.getHeight());
-
-        // TODO: use a height method on currentDirectory
     }
 
     /**
