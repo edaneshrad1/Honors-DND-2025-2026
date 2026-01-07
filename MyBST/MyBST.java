@@ -104,6 +104,7 @@ public class MyBST<E extends Comparable<E>> {
 	// If removing a node with two children: replace it with the
 	// largest node in the right subtree
 	public boolean remove(E value) {
+		//node is the node being removed
 		BinaryNode<E> node = root;
 		// go through tree until you reach the node with value
 		while (value.compareTo(node.getValue()) != 0) {
@@ -119,6 +120,7 @@ public class MyBST<E extends Comparable<E>> {
 			BinaryNode<E> right = root.getRight();
 			BinaryNode<E> left = root.getLeft();
 			right.setLeft(left);
+			left.setParent(right);
 			root = right;
 			return true;
 		}
@@ -141,6 +143,7 @@ public class MyBST<E extends Comparable<E>> {
 		if (!node.hasLeft() && node.hasRight()
 				&& node.getValue().compareTo(parent.getValue()) > 0) {
 			parent.setRight(node.getRight());
+			node.getRight().setParent(parent);
 			return true;
 		}
 
@@ -148,6 +151,7 @@ public class MyBST<E extends Comparable<E>> {
 		if (!node.hasLeft() && node.hasRight()
 				&& node.getValue().compareTo(parent.getValue()) < 0) {
 			parent.setLeft(node.getRight());
+			node.getRight().setParent(parent);
 			return true;
 		}
 
@@ -155,6 +159,7 @@ public class MyBST<E extends Comparable<E>> {
 		if (node.hasLeft() && !node.hasRight()
 				&& node.getValue().compareTo(parent.getValue()) > 0) {
 			parent.setRight(node.getLeft());
+			node.getLeft().setParent(parent);
 			return true;
 		}
 
@@ -162,18 +167,21 @@ public class MyBST<E extends Comparable<E>> {
 		if (node.hasLeft() && !node.hasRight()
 				&& node.getValue().compareTo(parent.getValue()) < 0) {
 			parent.setLeft(node.getLeft());
+			node.getLeft().setParent(parent);
 			return true;
 		}
 
 		// if node has two children and is on the right make parent.getRight node.getRight
 		if (node.hasLeft() && node.hasRight() && node.getValue().compareTo(parent.getValue()) > 0) {
 			parent.setRight(node.getRight());
+			node.getRight().setParent(parent);
 			return true;
 		}
 
 		// if node has two children and is on the left make parent.getLeft node.getRight
 		if (node.hasLeft() && node.hasRight() && node.getValue().compareTo(parent.getValue()) < 0) {
 			parent.setLeft(node.getRight());
+			node.getRight().setParent(parent);
 			return true;
 		}
 
