@@ -157,11 +157,21 @@ public class MyBST<E extends Comparable<E>> {
 			// if smallestRight is one generation below node
 			if (smallestRight.getHeight() - node.getHeight() == 1) {
 				// make node.getRight() smallestRight.getRight()
+				// make smallestRight.getRight's parent node
 				node.setRight(smallestRight.getRight());
+				if (smallestRight.getRight() != null) {
+					smallestRight.getRight().setParent(node);
+				}
+
 			} else {
 				// make the left of smallestRight's parent the right of smallestRight
 				// b/c smallestRight will never have a left
 				smallestRight.getParent().setLeft(smallestRight.getRight());
+				// if smallestRight's right node isn't null
+				if (smallestRight.getRight() != null) {
+					// make smallestRight.getRight's parent smallestRight.getParent
+					smallestRight.getRight().setParent(smallestRight.getParent());
+				}
 			}
 			return true;
 		}
@@ -178,14 +188,20 @@ public class MyBST<E extends Comparable<E>> {
 			if (largestLeft.getHeight() - node.getHeight() == 1) {
 				// make node.getLeft() largestLeft.getLeft()
 				node.setLeft(largestLeft.getLeft());
+				if (largestLeft.getLeft() != null) {
+					largestLeft.getLeft().setParent(node);
+				}
 			} else {
 				// make the right of largestLeft's parent the left of largestLeft
 				// b/c largestLeft will never have a right
 				largestLeft.getParent().setRight(largestLeft.getLeft());
+				if (largestLeft.getLeft() != null) {
+					largestLeft.getLeft().setParent(largestLeft.getParent());
+				}
 			}
 			return true;
 		}
-
+		
 		return false;
 	}
 
