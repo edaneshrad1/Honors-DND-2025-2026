@@ -30,7 +30,8 @@ public class MyBST<E extends Comparable<E>> {
 			// if you find the node YAY!
 			if (value.compareTo(node.getValue()) == 0) {
 				return true;
-				// if value is greater than node.getValue continue itterating through node.getRight
+				// if value is greater than node.getValue continue itterating through
+				// node.getRight
 			} else if (value.compareTo(node.getValue()) > 0) {
 				node = node.getRight();
 				continue;
@@ -53,6 +54,7 @@ public class MyBST<E extends Comparable<E>> {
 		// if you have a tree with no nodes make the root a new node with value
 		if (root == null) {
 			root = new BinaryNode<E>(value);
+			root.setHeight(0);
 			return true;
 		}
 
@@ -62,11 +64,13 @@ public class MyBST<E extends Comparable<E>> {
 		// in this while loop a node will not be added if its parent is a leaf
 		while (node.hasLeft() || node.hasRight()) {
 			if (value.compareTo(node.getValue()) > 0) {
-				// if value is greater than node.getValue and node has no right make node.getRight
+				// if value is greater than node.getValue and node has no right make
+				// node.getRight
 				// value
 				if (!node.hasRight()) {
 					node.setRight(addedNode);
 					addedNode.setParent(node);
+					addedNode.setHeight(node.getHeight() + 1);
 					return true;
 				} else {
 					// if node has a right continue itterating
@@ -74,10 +78,12 @@ public class MyBST<E extends Comparable<E>> {
 					continue;
 				}
 			} else {
-				// if value is less than node.getValue and node has no left make node.getLeft value
+				// if value is less than node.getValue and node has no left make node.getLeft
+				// value
 				if (!node.hasLeft()) {
 					node.setLeft(addedNode);
 					addedNode.setParent(node);
+					addedNode.setHeight(node.getHeight() + 1);
 					return true;
 					// if node has a left continue itterating
 				} else {
@@ -90,11 +96,13 @@ public class MyBST<E extends Comparable<E>> {
 		if (value.compareTo(node.getValue()) > 0) {
 			node.setRight(addedNode);
 			addedNode.setParent(node);
+			addedNode.setHeight(node.getHeight() + 1);
 			return true;
 		} else {
 			// if node is a leaf and value < node.getValue make node.getLeft value
 			node.setLeft(addedNode);
 			addedNode.setParent(node);
+			addedNode.setHeight(node.getHeight() + 1);
 			return true;
 		}
 	}
@@ -104,7 +112,14 @@ public class MyBST<E extends Comparable<E>> {
 	// If removing a node with two children: replace it with the
 	// largest node in the right subtree
 	public boolean remove(E value) {
-		//node is the node being removed
+		// if the root node has no kids
+		if (!root.hasLeft() && !root.hasRight()) {
+			// make the root null
+			root = null;
+			return true;
+		}
+
+		// node is the node being removed
 		BinaryNode<E> node = root;
 		// go through tree until you reach the node with value
 		while (value.compareTo(node.getValue()) != 0) {
@@ -115,16 +130,8 @@ public class MyBST<E extends Comparable<E>> {
 			}
 		}
 
-		// if node is the root make node.getRight the root and make right node.getLeft root.getLeft
-		if (node == root) {
-			BinaryNode<E> right = root.getRight();
-			BinaryNode<E> left = root.getLeft();
-			right.setLeft(left);
-			left.setParent(right);
-			root = right;
-			return true;
-		}
 		BinaryNode<E> parent = node.getParent();
+
 		// if node has no kids and is on the right of parent make parent.getRigth null
 		if (!node.hasLeft() && !node.hasRight()
 				&& node.getValue().compareTo(parent.getValue()) > 0) {
@@ -139,49 +146,43 @@ public class MyBST<E extends Comparable<E>> {
 			return true;
 		}
 
-		// if node has no left and is on the right of parent make parent.getRight node.getRight
-		if (!node.hasLeft() && node.hasRight()
-				&& node.getValue().compareTo(parent.getValue()) > 0) {
-			parent.setRight(node.getRight());
-			node.getRight().setParent(parent);
+		// if node has two children or only has a right child:
+		if ((node.hasLeft() && node.hasRight()) || (!node.hasLeft() && node.hasRight())) {
+			// find smallest node in right subtree
+			BinaryNode<E> smallestRight = minFromNode(node.getRight());
+			// make the value of node the value of smallestRight
+			node.setValue(smallestRight.getValue());
+
+			// get rid of smallestRight:
+			// if smallestRight is one generation below node
+			if (smallestRight.getHeight() - node.getHeight() == 1) {
+				// make node.getRight() smallestRight.getRight()
+				node.setRight(smallestRight.getRight());
+			} else {
+				// make the left of smallestRight's parent the right of smallestRight
+				// b/c smallestRight will never have a left
+				smallestRight.getParent().setLeft(smallestRight.getRight());
+			}
 			return true;
 		}
 
-		// if node has no left and is on the left of parent make parent.getLeft node.getRight
-		if (!node.hasLeft() && node.hasRight()
-				&& node.getValue().compareTo(parent.getValue()) < 0) {
-			parent.setLeft(node.getRight());
-			node.getRight().setParent(parent);
-			return true;
-		}
+		// if node only has a left child:
+		if (node.hasLeft() && !node.hasRight()) {
+			// find the largest node in the left subtree
+			BinaryNode<E> largestLeft = maxFromNode(node.getLeft());
+			// make the value of node the value of largestLeft
+			node.setValue(largestLeft.getValue());
 
-		// if node has no right and is on the right of parent make parent.getRight node.getLeft
-		if (node.hasLeft() && !node.hasRight()
-				&& node.getValue().compareTo(parent.getValue()) > 0) {
-			parent.setRight(node.getLeft());
-			node.getLeft().setParent(parent);
-			return true;
-		}
-
-		// if node has no right and is on the left of parent make parent.getLeft node.getLeft
-		if (node.hasLeft() && !node.hasRight()
-				&& node.getValue().compareTo(parent.getValue()) < 0) {
-			parent.setLeft(node.getLeft());
-			node.getLeft().setParent(parent);
-			return true;
-		}
-
-		// if node has two children and is on the right make parent.getRight node.getRight
-		if (node.hasLeft() && node.hasRight() && node.getValue().compareTo(parent.getValue()) > 0) {
-			parent.setRight(node.getRight());
-			node.getRight().setParent(parent);
-			return true;
-		}
-
-		// if node has two children and is on the left make parent.getLeft node.getRight
-		if (node.hasLeft() && node.hasRight() && node.getValue().compareTo(parent.getValue()) < 0) {
-			parent.setLeft(node.getRight());
-			node.getRight().setParent(parent);
+			// get rid of largestLeft:
+			// if largestLeft is one generation below node
+			if (largestLeft.getHeight() - node.getHeight() == 1) {
+				// make node.getLeft() largestLeft.getLeft()
+				node.setLeft(largestLeft.getLeft());
+			} else {
+				// make the right of largestLeft's parent the left of largestLeft
+				// b/c largestLeft will never have a right
+				largestLeft.getParent().setRight(largestLeft.getLeft());
+			}
 			return true;
 		}
 
@@ -198,6 +199,14 @@ public class MyBST<E extends Comparable<E>> {
 		return node.getValue();
 	}
 
+	// method that returns the min from a specific node
+	public BinaryNode<E> minFromNode(BinaryNode<E> node) {
+		while (node.hasLeft()) {
+			node = node.getLeft();
+		}
+		return node;
+	}
+
 	// Returns the maximum in the tree.
 	public E max() {
 		BinaryNode<E> node = root;
@@ -208,9 +217,21 @@ public class MyBST<E extends Comparable<E>> {
 		return node.getValue();
 	}
 
-	// Returns a bracket-surrounded, comma separated list of the contents of the nodes, in order
+	// method that returns the max from a specific node
+	public BinaryNode<E> maxFromNode(BinaryNode<E> node) {
+		while (node.hasRight()) {
+			node = node.getRight();
+		}
+		return node;
+	}
+
+	// Returns a bracket-surrounded, comma separated list of the contents of the
+	// nodes, in order
 	// e.g. [Apple, Cranberry, Durian, Mango]
 	public String toString() {
+		if (root == null) {
+			return "[]";
+		}
 		String str = "";
 		str += "[";
 		str += stringEverything(root);
@@ -220,12 +241,14 @@ public class MyBST<E extends Comparable<E>> {
 
 	public String stringEverything(BinaryNode<E> node) {
 		String str = "";
-		// if node has a left tell lil recursion slave to add everything on the left to str
+		// if node has a left tell lil recursion slave to add everything on the left to
+		// str
 		if (node.hasLeft()) {
 			str += stringEverything(node.getLeft()) + ", ";
 		}
 		str += node;
-		// if node has a right tell lil recursion slave to add everything on the right to str
+		// if node has a right tell lil recursion slave to add everything on the right
+		// to str
 		if (node.hasRight()) {
 			str += ", " + stringEverything(node.getRight());
 		}
