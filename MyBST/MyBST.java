@@ -19,6 +19,9 @@ public class MyBST<E extends Comparable<E>> {
 
 	// Returns true if this BST contains value; otherwise returns false.
 	public boolean contains(E value) {
+		if (this.root == null) {
+			return false;
+		}
 		// check if root is value
 		if (root.getValue() == value) {
 			return true;
@@ -33,10 +36,16 @@ public class MyBST<E extends Comparable<E>> {
 				// if value is greater than node.getValue continue itterating through
 				// node.getRight
 			} else if (value.compareTo(node.getValue()) > 0) {
+				if (node.getRight() == null) {
+					return false;
+				}
 				node = node.getRight();
 				continue;
 			} else {
 				// if value is less than node.getValue continue itterating through node.getLeft
+				if (node.getLeft() == null) {
+					return false;
+				}
 				node = node.getLeft();
 				continue;
 			}
@@ -65,8 +74,7 @@ public class MyBST<E extends Comparable<E>> {
 		while (node.hasLeft() || node.hasRight()) {
 			if (value.compareTo(node.getValue()) > 0) {
 				// if value is greater than node.getValue and node has no right make
-				// node.getRight
-				// value
+				// node.getRight value
 				if (!node.hasRight()) {
 					node.setRight(addedNode);
 					addedNode.setParent(node);
@@ -201,7 +209,7 @@ public class MyBST<E extends Comparable<E>> {
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 
