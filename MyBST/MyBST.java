@@ -60,6 +60,9 @@ public class MyBST<E extends Comparable<E>> {
 	// Adds value to this BST, unless this tree already holds value.
 	// Returns true if value has been added; otherwise returns false.
 	public boolean add(E value) {
+		if (contains(value)) {
+			return false;
+		}
 		// if you have a tree with no nodes make the root a new node with value
 		if (root == null) {
 			root = new BinaryNode<E>(value);
@@ -120,6 +123,9 @@ public class MyBST<E extends Comparable<E>> {
 	// If removing a node with two children: replace it with the
 	// largest node in the right subtree
 	public boolean remove(E value) {
+		if (!contains(value)) {
+			return false;
+		}
 		// if the root node has no kids
 		if (!root.hasLeft() && !root.hasRight()) {
 			// make the root null
