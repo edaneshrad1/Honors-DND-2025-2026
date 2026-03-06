@@ -10,7 +10,6 @@ public class ChocolateHashMap<K, V> {
     private BatchNode<ChocolateEntry<K, V>>[] buckets;
     private int objectCount;
     private double loadFactorLimit;
-    private int bucketCount = buckets.length;
 
     // Constructor: creates a hash map with the given initial bucket size and load factor limit
     @SuppressWarnings("unchecked")
@@ -51,41 +50,106 @@ public class ChocolateHashMap<K, V> {
     // Use .hashCode(), but be aware that hashCode can return negative numbers!
     // NOTE: Math.abs(Integer.MIN_VALUE) is still negative. Consider masking the sign bit.
     private int whichBucket(K key) {
+
+        //hash the key
         int keyIndex = key.hashCode();
-        keyIndex = keyIndex % bucketCount;
-        keyIndex += bucketCount;
-        keyIndex = keyIndex / 2;
+
+        //mod the key by buckets.length
+        keyIndex = keyIndex % buckets.length;
+
+        //if the modded key is negative add buckets.length to it
+        if (keyIndex < 0) {
+            keyIndex += buckets.length;
+        }
+
         return keyIndex;
     }
 
     // Returns the current load factor (objCount / buckets)
     public double currentLoadFactor() {
-        return objectCount / bucketCount;
+        return (double)(objectCount) / (double)(buckets.length);
     }
 
     // Return true if the key exists as a key in the map, otherwise false.
     // Use the .equals method to check equality.
     public boolean containsKey(K key) {
-        BatchNode<ChocolateEntry<K, V>> batch = buckets[whichBucket(key)];
-        ChocolateEntry<K, V> sentry = batch.getEntry();
-        while (true) {
-            batch = batch.getNext();
-            if (batch.getEntry().getKey().equals(key)) {
-                return true;
-            } else if (batch.getEntry().equals(sentry)) {
-                return false;
+
+        //call whichBucket on key to find its location in buckets
+        int location = whichBucket(key);
+
+        //go to that list in buckets and loop through it
+        if (isBucketEmpty(buckets[location])) {
+            return false;
+        } else {
+
+            //check every node in that list and make sure its key is equal to key
+            BatchNode<ChocolateEntry<K, V>> currentNode = buckets[location].getNext();
+            while (currentNode != buckets[location]) {
+                ChocolateEntry<K, V> entry = currentNode.getEntry();
+
+                //if a node's key equals key immediately return true
+                if (entry.getKey().equals(key)) {
+                    return true;
+
+                //if currentNode.getKey() is not equal to key continue itterating through the loop
+                } else {
+                    currentNode = currentNode.getNext();
+                    continue;
+                }
             }
+            
+            //if you reach the end of the list and don't find key return false
+            return false;
         }
     }
 
     // Return true if the value exists as a value in the map, otherwise false.
     // Use the .equals method to check equality.
     public boolean containsValue(V value) {
-        for (int i = 0; i < buckets.length; i++) {
-            if (buckets[i].getEntry().getValue().equals(value)) {
-                return true;
+
+        //loop through buckets
+        for (int i = 0; i< buckets.length; i++) {
+
+            //if the current list is empty continue
+            if (isBucketEmpty(buckets[i])) {
+                continue;
+
+            //if not check every node in the list and return true if found
+            } else {
+                BatchNode<ChocolateEntry<K, V>> currentNode = buckets[i].getNext();
+                while (currentNode != buckets[i]) {
+                    V currentValue = currentNode.getEntry().getValue();
+
+                    //if the current value is null check if value is null too using ==
+                    if (currentValue == null) {
+
+                        //if yes return true
+                        if (value == null) {
+                            return true;
+
+                        //if no continue
+                        } else {
+                            currentNode = currentNode.getNext();
+                            continue;
+                        }
+                    //if the current value isn't null check if it's equal to value using .equals
+                    } else {
+
+                        //if yes return true
+                        if (currentValue.equals(value)) {
+                            return true;
+
+                        //if no continue
+                        } else {
+                            currentNode = currentNode.getNext();
+                            continue;
+                        }
+                    }
+                }
             }
         }
+        
+        //if value is not found return false
         return false;
     }
 
@@ -96,22 +160,111 @@ public class ChocolateHashMap<K, V> {
     // After adding the pair, check if the load factor is greater than the limit.
     // - If so, you must call rehash with double the current bucket size.
     public boolean put(K key, V value) {
-        // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement put");
+
+        //if the key already exists do nothing and return false
+        if (containsKey(key)) {
+            return false;
+        }
+
+        //find the bucket you put key into
+        int location = whichBucket(key);
+
+        //instantiate the sentinle and its previous at key
+        BatchNode<ChocolateEntry<K, V>> sentinle = buckets[location];
+        BatchNode<ChocolateEntry<K, V>> sentinlePrev = sentinle.getPrevious();
+
+        //make a new ChocolateEntry with key and value
+        ChocolateEntry<K, V> entry = new ChocolateEntry<K, V>(key, value);
+
+        //make a new BatchNode with key where the previous points to sentinlePrev and next to Sentinle
+        BatchNode<ChocolateEntry<K, V>> addedNode = new BatchNode<ChocolateEntry<K, V>>(entry, sentinlePrev, sentinle);
+
+        //make the next of the sentinlePrev and the previous of sentinle that new node and 
+        sentinlePrev.setNext(addedNode);
+        sentinle.setPrevious(addedNode);
+
+        //add to objectCount
+        objectCount++;
+
+        //make sure the load factor is chillin
+        if (currentLoadFactor() > loadFactorLimit) {
+            rehash(buckets.length * 2);
+        }
+
+        return true;
     }
+
 
     // Returns the value associated with the key in the map.
     // If the key is not in the map, then return null.
     public V get(K key) {
-        // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement get");
+
+        //find the location of key
+        int location = whichBucket(key);
+
+        //if the list is empty return null
+        if (isBucketEmpty(buckets[location])) {
+            return null;
+
+        //if not itterate through the list and check the key of every node
+        } else {
+            BatchNode<ChocolateEntry<K, V>> currentNode = buckets[location].getNext();
+            while (currentNode != buckets[location]) {
+                ChocolateEntry<K, V> entry = currentNode.getEntry();
+
+                //if the key of currentNode is equal to key yay!
+                if (entry.getKey().equals(key)) {
+                    return entry.getValue();
+
+                //if not continue
+                } else {
+                    currentNode = currentNode.getNext();
+                    continue;
+                }
+            }
+        }
+        
+        //if the key is never found return null
+        return null;
     }
 
     // Remove the pair associated with the key.
     // Return true if successful, false if the key did not exist.
     public boolean remove(K key) {
-        // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement remove");
+
+        //find the location of key
+        int location = whichBucket(key);
+
+        //if the list is empty return false
+        if (isBucketEmpty(buckets[location])) {
+            return false;
+
+        //if not itterate through the list and check the key of every node
+        } else {
+            BatchNode<ChocolateEntry<K, V>> currentNode = buckets[location].getNext();
+            while (currentNode != buckets[location]) {
+                ChocolateEntry<K, V> entry = currentNode.getEntry();
+                BatchNode<ChocolateEntry<K, V>> prevNode = currentNode.getPrevious();
+                BatchNode<ChocolateEntry<K, V>> nextNode = currentNode.getNext();
+
+                //if the key is found make the next of prevNode nextNode and the previous of nextNode prevNode and return true
+                if (entry.getKey().equals(key)) {
+                    prevNode.setNext(nextNode);
+                    nextNode.setPrevious(prevNode);
+                    objectCount--;
+                    return true;
+
+                //if not continue
+                } else {
+                    currentNode = currentNode.getNext();
+                    continue;
+                }
+            }
+        }
+        
+        
+        //if the key is never found return false
+        return false;
     }
 
     // Rehash the map so that it contains the given number of buckets
@@ -120,8 +273,38 @@ public class ChocolateHashMap<K, V> {
     // I.e. if a bucket originally has (sentinel)->J->Z->K, then J will be rehashed first,
     // followed by Z, then K.
     public void rehash(int newBucketCount) {
-        // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement rehash");
+
+        //store buckets as the variable oldBuckets
+        BatchNode<ChocolateEntry<K, V>>[] oldBuckets = buckets;
+
+        //make a new array with size newBucketCount
+        BatchNode<ChocolateEntry<K, V>>[] newBuckets = new BatchNode[newBucketCount];
+
+        fillArrayWithSentinels(newBuckets);
+
+        //make newBuckets the new array
+        this.buckets = newBuckets;
+
+        //reset objectCount to 0
+        this.objectCount = 0;
+
+        //loop through the origional array
+        for (int i = 0; i < oldBuckets.length; i++) {
+
+            //if buckets[i] isn't empty loop through the list
+            if (!isBucketEmpty(oldBuckets[i])) {
+                BatchNode<ChocolateEntry<K, V>> currentNode = oldBuckets[i].getNext();
+                while (currentNode != oldBuckets[i]) {
+                     //put each key, value pair into newBuckets
+                     ChocolateEntry<K, V> entry = currentNode.getEntry();
+                     put(entry.getKey(), entry.getValue());
+                     currentNode = currentNode.getNext();
+                }
+            //if buckets[i] is empty continue
+            } else {
+                continue;
+            }
+        }
     }
 
     // The output should be in the following format:
@@ -134,7 +317,44 @@ public class ChocolateHashMap<K, V> {
     // [ 3, 10 | { b3: LOT-70,DARK LOT-12,MILK } { b7: LOT-99,WHITE } ]
     @Override
     public String toString() {
-        // TODO: implement
-        throw new UnsupportedOperationException("TODO: implement toString");
+        StringBuilder returnString = new StringBuilder();
+        returnString.append("[ " + objectCount + ", " + buckets.length + " | ");
+
+        //loop through buckets
+        for (int i = 0; i < buckets.length; i++) {
+
+            //stop at each bucket that's not empty
+            if (isBucketEmpty(buckets[i])) {
+                continue;
+            } else {
+
+                //append brackets and shit
+                returnString.append("{ b" + i + ": ");
+
+                //loop through the list of nodes and append their key and value separated by a comma
+                BatchNode<ChocolateEntry<K, V>> currentNode = buckets[i].getNext();
+                while (currentNode != buckets[i]) {
+                    ChocolateEntry<K, V> entry = currentNode.getEntry();
+                    returnString.append(entry.getKey() + "," + entry.getValue() + " ");
+                    currentNode = currentNode.getNext();
+                }
+
+                //append brackets and shit
+                returnString.append("} ");
+            }
+        }
+
+        returnString.append("]");
+
+        return returnString.toString();
+    }
+
+    //method that checks if a bucket is empty
+    public boolean isBucketEmpty(BatchNode<ChocolateEntry<K, V>> bucket) {
+        if (bucket.getNext() == bucket) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
