@@ -135,7 +135,7 @@ public class MarkovPredictor {
         return returnList;
     }
 
-    //method that gets the ranges for the probabilities
+    //method that gets the ranges for a list of probabilities
     //e.g[0.5, 0.62, 0.71, 0.91, 0.96, 0.99]; the index of this array corresponds to the index in noZeroProbability
     public double[] generateRangeValues(double[] noZeroProbability) {
 
@@ -303,9 +303,7 @@ public class MarkovPredictor {
 
 
     //make a method that counts the number of instances of each weather type for a specific key (returns an int arry)
-    //takes in a list of all the different weather types, a hash map, and a key from that map
-    //weatherTypes is a list of all the possible weather types
-    //map is the hash map
+    //takes in a key 
     //key is the "first-day" weather type / key for the hash map
     //this method more or less just returns a frequency list for all the weatherTypes at key
     public int[] weatherTypeCounter(String key) {

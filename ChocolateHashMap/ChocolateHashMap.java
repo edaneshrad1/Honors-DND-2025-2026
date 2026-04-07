@@ -49,6 +49,7 @@ public class ChocolateHashMap<K, V> {
     // Return the bucket index for the key
     // Use .hashCode(), but be aware that hashCode can return negative numbers!
     // NOTE: Math.abs(Integer.MIN_VALUE) is still negative. Consider masking the sign bit.
+    //O(1)
     private int whichBucket(K key) {
 
         //hash the key
@@ -66,12 +67,14 @@ public class ChocolateHashMap<K, V> {
     }
 
     // Returns the current load factor (objCount / buckets)
+    //O(1)
     public double currentLoadFactor() {
         return (double)(objectCount) / (double)(buckets.length);
     }
 
     // Return true if the key exists as a key in the map, otherwise false.
     // Use the .equals method to check equality.
+    //O(1)
     public boolean containsKey(K key) {
 
         //call whichBucket on key to find its location in buckets
@@ -105,6 +108,7 @@ public class ChocolateHashMap<K, V> {
 
     // Return true if the value exists as a value in the map, otherwise false.
     // Use the .equals method to check equality.
+    //O(n)
     public boolean containsValue(V value) {
 
         //loop through buckets
@@ -159,6 +163,7 @@ public class ChocolateHashMap<K, V> {
     // If a pair should be added, add it to the END of the bucket.
     // After adding the pair, check if the load factor is greater than the limit.
     // - If so, you must call rehash with double the current bucket size.
+    //O(1) if you don't need to rehash but O(n) if you need to rehahs
     public boolean put(K key, V value) {
 
         //if the key already exists do nothing and return false
@@ -197,6 +202,7 @@ public class ChocolateHashMap<K, V> {
 
     // Returns the value associated with the key in the map.
     // If the key is not in the map, then return null.
+    //O(1)
     public V get(K key) {
 
         //find the location of key
@@ -230,6 +236,7 @@ public class ChocolateHashMap<K, V> {
 
     // Remove the pair associated with the key.
     // Return true if successful, false if the key did not exist.
+    //O(1)
     public boolean remove(K key) {
 
         //find the location of key
@@ -272,6 +279,7 @@ public class ChocolateHashMap<K, V> {
     // Rehash each object into the new bucket array in the order they appear on the original chain.
     // I.e. if a bucket originally has (sentinel)->J->Z->K, then J will be rehashed first,
     // followed by Z, then K.
+    //O(n)
     public void rehash(int newBucketCount) {
 
         //store buckets as the variable oldBuckets
