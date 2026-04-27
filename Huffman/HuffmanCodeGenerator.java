@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.io.PrintWriter;
-import java.io.FileWriter;
 
 public class HuffmanCodeGenerator {
 
@@ -59,6 +58,18 @@ public class HuffmanCodeGenerator {
         HuffmanTree tree = makeTree();
         tree.setBinaryDefinitions();
         makeCodeMap(tree.getRoot());
+    }
+
+    //The most important method in HuffmanCodeGenerator (I will often refer to it just as “Generator”) is the method:
+    public void makeCodeFile(String codeFile) {
+        //make a new PW using codeFile
+        PrintWriter pw = new PrintWriter(codeFile);
+        
+        //for each character in codeMap:
+        //code = codeMap.get(c)
+        //write code into codeFile
+        //move to the next line
+        //close the PW
     }
 
     public int getFrequency(char c) {
@@ -183,10 +194,6 @@ public class HuffmanCodeGenerator {
         }
     }
 
-    //The most important method in HuffmanCodeGenerator (I will often refer to it just as “Generator”) is the method:
-    public void makeCodeFile(String codeFile) {
-
-    }
 
     //To make the Huffman Tree we must:
     //Create a min heap with every key-value pair in map
